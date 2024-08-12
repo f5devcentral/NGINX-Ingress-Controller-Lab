@@ -12,7 +12,10 @@ Insights from a customer’s perspective on using NGINX on AWS, emphasizing real
 
 ## Keynote with F5  
 10:30 - 11:30 EEST  
-NGINX story, NGINX use cases for modern applications  
+- NGINX recap / story
+- NGINX for modern applications
+- Main use cases
+- Why NGINX as an Ingress Controller on AWS?
 
 ## Lunch  
 11:30 - 12:30 EEST  
@@ -27,6 +30,16 @@ Deploy a demo apps on EKS and publish them through NGINX & test access with diff
 
 ## Networking and Drinks  
 15:45 - 17:00 EEST  
+
+# NGINX Demo use cases (roughly 20 minutes per use case)
+- Basic Ingress Controller (using "Ingress" and the "VirtualServer" CRD)
+- Active healthchecks
+- Layer 7 routing
+- Custom error pages
+- Canary testing
+- Authentication
+- IP-based access control
+- NGINX App Protect WAF
 
 # Solutions Engineering Template Repository
 
