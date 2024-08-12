@@ -1,3 +1,33 @@
+# Agenda  
+
+## Registration and Coffee  
+09:30 - 09:45 EEST  
+
+## Welcome, Introduction & Kick Off - AWS    
+09:45 - 10:00 EEST  
+
+## Keynote with Eficode  
+10:00 - 10:30 EEST  
+Insights from a customer’s perspective on using NGINX on AWS, emphasizing real-world experience and benefits.  
+
+## Keynote with F5  
+10:30 - 11:30 EEST  
+NGINX story, NGINX use cases for modern applications  
+
+## Lunch  
+11:30 - 12:30 EEST  
+Lunch is included in the day  
+
+## Hands-on workshop with NGINX Labs  
+12:30 - 15:00 EEST  
+Deploy a demo apps on EKS and publish them through NGINX & test access with different use cases  
+
+## Summary of the Day and Q&A  
+15:00 - 15:45 EEST  
+
+## Networking and Drinks  
+15:45 - 17:00 EEST  
+
 # Solutions Engineering Template Repository
 
 A template repository that contains all required files (LICENSE, SUPPORT, CONTRIBUTING, etc) as outlined in the org standards.  
