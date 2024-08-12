@@ -1,7 +1,7 @@
 # NGINX+ Ingress Controller installation
 
 <!--- setup rbac ---> 
-`kubectl apply -f deployments/common/ns-and-sa.yaml'<br>
+`kubectl apply -f deployments/common/ns-and-sa.yaml`<br>
 kubectl apply -f deployments/common/ns-and-sa.yaml<br>
 kubectl apply -f deployments/rbac/ap-rbac.yaml<br>
 
