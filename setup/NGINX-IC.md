@@ -61,5 +61,7 @@ kubectl apply -f config/crd//bases/appprotect.f5.com_apusersigs.yaml
 ```
 
 ### Deploy N+
-`kubectl apply -f deployments/deployment/nginx-plus-ingress.yaml`<br>
+```code
+kubectl apply -f deployments/deployment/nginx-plus-ingress.yaml
+```
 
