@@ -1,8 +1,7 @@
 # NGINX Plus Ingress Controller installation
 
-NGINX Ingress Controller documentation: https://docs.nginx.com//nginx-ingress-controller/
-
-Installation with manifests: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-manifests/
+* NGINX Ingress Controller documentation: https://docs.nginx.com//nginx-ingress-controller/
+* Installation with manifests: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-manifests/
 
 ### Setup RBAC
 ```code
