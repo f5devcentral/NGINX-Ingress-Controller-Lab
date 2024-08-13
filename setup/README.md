@@ -1,65 +1,15 @@
-# NGINX Plus Ingress Controller installation
+# Environment setup
 
-NGINX Ingress Controller documentation: https://docs.nginx.com//nginx-ingress-controller/
+Follow these steps to setup the lab environment
 
-Installation with manifests: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-manifests/
-
-### Setup RBAC
-```code
-kubectl apply -f deployments/common/ns-and-sa.yaml
-```
-```code
-kubectl apply -f deployments/common/ns-and-sa.yaml
-```
-```code
-kubectl apply -f deployments/rbac/ap-rbac.yaml
-```
-
-<!--- create common resources ---> 
-### create common resources
-<!--- create default server secret ---> 
-<!--- kubectl apply -f examples/shared-examples/default-server-secret/default-server-secret.yaml ---> 
-
-#### Create a ConfigMap
+1. Clone this repository:
 
 ```code
-kubectl apply -f deployments/common/nginx-config.yaml
+git clone https://github.com/f5devcentral/NGINX-Ingress-Controller-Lab
 ```
 
-#### Create an ingress-class
-```code
-kubectl apply -f deployments/common/ingress-class.yaml
-```
+2. Deploy NGINX Ingress controller - [/setup/NGINX-IC.md](/setup/NGINX-IC.md)
 
-#### Deploy CRD's
-```code
-kubectl apply -f config/crd/bases/externaldns.nginx.org_dnsendpoints.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_globalconfigurations.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_policies.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_transportservers.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_virtualserverroutes.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_virtualservers.yaml
-```
-```code
-kubectl apply -f config/crd//bases/appprotect.f5.com_aplogconfs.yaml
-```
-```code
-kubectl apply -f config/crd//bases/appprotect.f5.com_appolicies.yaml
-```
-```code
-kubectl apply -f config/crd//bases/appprotect.f5.com_apusersigs.yaml
-```
+3. Deploy sample application - [/setup/SAMPLE-APP.md](/setup/SAMPLE-APP.md)
 
-### Deploy N+
-`kubectl apply -f deployments/deployment/nginx-plus-ingress.yaml`<br>
-
+4. Run the labs - [/labs](/labs)
