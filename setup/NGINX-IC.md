@@ -8,7 +8,7 @@
 kubectl apply -f deployments/common/ns-and-sa.yaml
 ```
 ```code
-kubectl apply -f deployments/common/ns-and-sa.yaml
+kubectl apply -f deployments/common/rbac.yaml
 ```
 ```code
 kubectl apply -f deployments/rbac/ap-rbac.yaml
@@ -60,6 +60,14 @@ kubectl apply -f config/crd//bases/appprotect.f5.com_apusersigs.yaml
 ```
 
 ### Deploy N+
+Create and environment variable called JWT_TOKEN with the token value provided by the instructor.  
+```code
+JWT_TOKEN=<insert JWT TOKEN>
+````
+Create a Kubernetes secret to hold the JWT Token. This token is needed to be able to download the NGINX+ version of Ingress Controller.  
+```code
+./create_secret.sh
+```
 ```code
 kubectl apply -f deployments/deployment/nginx-plus-ingress.yaml
 ```
