@@ -1,28 +1,47 @@
-# Solutions Engineering Template Repository
+# Agenda<br>
 
-A template repository that contains all required files (LICENSE, SUPPORT, CONTRIBUTING, etc) as outlined in the org standards.  
+## Registration and Coffee<br>
+09:30 - 09:45 EEST<br>
 
-The sections below are recommended in your project's README.md file.
+## Welcome, Introduction & Kick Off - AWS<br>
+09:45 - 10:00 EEST
 
-## Overview
+## Keynote with Eficode<br>
+10:00 - 10:30 EEST<br>
+Insights from a customer’s perspective on using NGINX on AWS, emphasizing real-world experience and benefits.  
 
-Provide a short overview of the project.
+## Keynote with F5<br>
+10:30 - 11:30 EEST<br>
+- NGINX recap / story
+- NGINX for modern applications
+- Main use cases
+- Why NGINX as an Ingress Controller on AWS?
 
-## Getting Started
+## Lunch<br>
+11:30 - 12:30 EEST<br>
+Lunch is included in the day  
 
-Provide a quick example of how to use your code.  This should provide the user with a launch point to quickly see what the project can offer them.
+## Hands-on workshop with NGINX Labs<br>
+12:30 - 15:00 EEST<br>
+Deploy a demo apps on EKS and publish them through NGINX & test access with different use cases
 
-## Installation
+## Summary of the Day and Q&A<br>
+15:00 - 15:45 EEST
 
-Outline the requirements and steps to install this project.
+## Networking and Drinks<br>
+15:45 - 17:00 EEST
 
-## Usage
+# NGINX Demo use cases (roughly 20 minutes per use case)<br>
+- Basic Ingress Controller (using "Ingress" and the "VirtualServer" CRD)
+- Active healthchecks
+- Layer 7 routing
+- Custom error pages
+- Canary testing
+- Authentication
+- IP-based access control
+- NGINX App Protect WAF
 
-Outline how the user can use your project and the various features the project offers.
-
-## Development
-
-Outline any requirements to setup a development environment if someone would like to contribute.  You may also link to another file for this information.
+# Housekeeping
 
 ## Support
 
