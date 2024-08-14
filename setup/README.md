@@ -8,8 +8,6 @@ Follow these steps to setup the lab environment
 git clone https://github.com/f5devcentral/NGINX-Ingress-Controller-Lab
 ```
 
-2. Deploy NGINX Ingress controller - [/setup/NGINX-IC.md](/setup/NGINX-IC.md)
+2. [Deploy](/setup/NGINX-IC.md) NGINX Ingress Controller
 
-3. Deploy sample application - [/setup/SAMPLE-APP.md](/setup/SAMPLE-APP.md)
-
-4. Run the labs - [/labs](/labs)
+3. [Run](/labs) the labs

@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: nginx-ingress
   namespace: nginx-ingress
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: nginx-ingress
@@ -18,6 +19,8 @@ spec:
        #prometheus.io/scheme: http
     spec:
       serviceAccountName: nginx-ingress
+      imagePullSecrets:
+      - name: regcred
       automountServiceAccountToken: true
       securityContext:
         seccompProfile:
@@ -32,20 +35,20 @@ spec:
 #      - name: nginx-log
 #        emptyDir: {}
       containers:
-      - image: nginx-plus-ingress:3.6.1
+      - image: private-registry.nginx.com/nginx-ic-nap/nginx-plus-ingress:3.6.1
         imagePullPolicy: IfNotPresent
         name: nginx-plus-ingress
         ports:
         - name: http
           containerPort: 80
-          hostPort: 80
         - name: https
           containerPort: 443
-          hostPort: 443
         - name: readiness-port
           containerPort: 8081
         - name: prometheus
           containerPort: 9113
+        - name: service-insight
+          containerPort: 9114
         readinessProbe:
           httpGet:
             path: /nginx-ready
@@ -92,10 +95,14 @@ spec:
           - -report-ingress-status
           - -external-service=nginx-ingress
          #- -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
-         #- -enable-app-protect
+         #- -include-year
+         #- -enable-cert-manager
+         #- -enable-external-dns
+          - -enable-app-protect
          #- -enable-app-protect-dos
          #- -v=3 # Enables extensive logging. Useful for troubleshooting.
          #- -enable-prometheus-metrics
+         #- -enable-service-insight
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
 #      initContainers:
 #      - image: nginx/nginx-ingress:3.6.1

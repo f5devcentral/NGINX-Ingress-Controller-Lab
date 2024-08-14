@@ -3,72 +3,100 @@
 * NGINX Ingress Controller documentation: https://docs.nginx.com//nginx-ingress-controller/
 * Installation with manifests: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-manifests/
 
+### Clone the NGINX Ingress Controller repository
+```code
+git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v3.6.1
+```
+
+```code
+cd kubernetes-ingress
+```
+
 ### Setup RBAC
 ```code
 kubectl apply -f deployments/common/ns-and-sa.yaml
 ```
 ```code
-kubectl apply -f deployments/common/rbac.yaml
+kubectl apply -f deployments/rbac/rbac.yaml
 ```
 ```code
 kubectl apply -f deployments/rbac/ap-rbac.yaml
 ```
 
-<!--- create common resources ---> 
-### create common resources
-<!--- create default server secret ---> 
+### Create common resources
+
 <!--- kubectl apply -f examples/shared-examples/default-server-secret/default-server-secret.yaml ---> 
 
-#### Create a ConfigMap
+#### Create a ConfigMap for the global NGINX configuration
 
 ```code
 kubectl apply -f deployments/common/nginx-config.yaml
 ```
 
-#### Create an ingress-class
+#### Create an ingressclass resource
 ```code
 kubectl apply -f deployments/common/ingress-class.yaml
 ```
 
-#### Deploy CRD's
+#### Deploy NGINX Plus Ingress Controller CRDs
 ```code
-kubectl apply -f config/crd/bases/externaldns.nginx.org_dnsendpoints.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_globalconfigurations.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_policies.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_transportservers.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_virtualserverroutes.yaml
-```
-```code
-kubectl apply -f config/crd/bases/k8s.nginx.org_virtualservers.yaml
-```
-```code
-kubectl apply -f config/crd//bases/appprotect.f5.com_aplogconfs.yaml
-```
-```code
-kubectl apply -f config/crd//bases/appprotect.f5.com_appolicies.yaml
-```
-```code
-kubectl apply -f config/crd//bases/appprotect.f5.com_apusersigs.yaml
+kubectl apply -f deploy/crds.yaml
 ```
 
-### Deploy N+
-Create and environment variable called JWT_TOKEN with the token value provided by the instructor.  
+#### Deploy NGINX App Protect WAF CRDs
 ```code
-JWT_TOKEN=<insert JWT TOKEN>
-````
-Create a Kubernetes secret to hold the JWT Token. This token is needed to be able to download the NGINX+ version of Ingress Controller.  
-```code
-./create_secret.sh
-```
-```code
-kubectl apply -f deployments/deployment/nginx-plus-ingress.yaml
+kubectl apply -f ./deploy/crds-nap-waf.yaml
 ```
 
+### Deploy NGINX Ingress Controller
+
+#### Create the authentication Kubernetes secret
+
+This secret is needed to be able to pull the NGINX Plus Ingress Controller docker image from the NGINX private registry
+```code
+kubectl create secret docker-registry regcred --docker-server=private-registry.nginx.com --docker-username=<JWT Token> --docker-password=none -n nginx-ingress 
+```
+
+#### Apply NGINX Ingress Controller manifests
+
+Apply the Deployment manifest to install NGINX Ingress Controller
+```code
+kubectl apply -f ../NGINX-Ingress-Controller-Lab/setup/manifests/nginx-plus-ingress.yaml
+```
+
+Expose NGINX Ingress Controller through AWS Load Balancer
+```code
+kubectl apply -f ../NGINX-Ingress-Controller-Lab/setup/manifests/nginx-plus-ingress-svc.yaml
+```
+
+### Test NGINX Ingress Controller reachability
+
+Get the Internet-facing, external hostname for the NGINX Ingress Controller
+```code
+WSParticipantRole:~/environment/kubernetes-ingress ((v3.6.1)) $ kubectl get svc -n nginx-ingress
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)                      AGE
+nginx-ingress   LoadBalancer   172.20.180.63   <NGINX_IC_HOSTNAME>.us-west-2.elb.amazonaws.com   80:32242/TCP,443:31449/TCP   3m53s
+```
+
+Send an HTTP request to verify NGINX Ingress Controller can be reached
+```code
+curl -i http://<NGINX_IC_HOSTNAME>.us-west-2.elb.amazonaws.com
+```
+
+The expected response is:
+```
+HTTP/1.1 404 Not Found
+Server: nginx/1.25.5
+Date: Wed, 14 Aug 2024 14:41:24 GMT
+Content-Type: text/html
+Content-Length: 153
+Connection: keep-alive
+
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.25.5</center>
+</body>
+</html>
+```
