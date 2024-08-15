@@ -1,6 +1,12 @@
 # Advanced Layer 7 routing
 
-This use case shows how to perform advanced layer 7 routing based on HTTP Cookies and HTTP method
+This use case shows how to perform advanced layer 7 routing based on HTTP Cookies and HTTP method for an application with
+four services: `tea-post-svc`, `tea-svc`, `coffee-v1-svc` and `coffee-v2-svc`
+
+- POST requests for `/tea` are routed `tea-post-svc`
+- non-POST requests for `tea` are routed to `tea-svc`
+- Requests for `/coffee` that include the cookie `version` set to `v2` are routed to `coffee-v2-svc`
+- Requests for `/coffee` with no `version` coookie are routed to `coffee-v1-svc`
 
 Save the public FQDN for NGINX Ingress Controller
 ```code

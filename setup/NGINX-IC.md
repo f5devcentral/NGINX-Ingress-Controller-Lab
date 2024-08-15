@@ -1,5 +1,7 @@
 # NGINX Plus Ingress Controller installation
 
+Lab time: ~20 minutes
+
 * NGINX Ingress Controller documentation: https://docs.nginx.com//nginx-ingress-controller/
 * Installation with manifests: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-manifests/
 
@@ -103,7 +105,7 @@ Check the public FQDN
 echo $FQDN
 ```
 
-Send an HTTP request to verify NGINX Ingress Controller can be reached
+Send an HTTP request to verify NGINX Ingress Controller can be reached. It might a few seconds for NGINX to be reachable from the public Internet after the initial deployment
 ```code
 curl -i http://$FQDN
 ```

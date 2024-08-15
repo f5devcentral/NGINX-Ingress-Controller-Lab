@@ -1,6 +1,6 @@
-# JWT Token authentication
+# Access Control
 
-This use case shows how to enforce JWT authentication at the NGINX Ingress Controller level
+This use case applies access control policies to deny and allow traffic from a specific subnet
 
 Save the public FQDN for NGINX Ingress Controller
 ```code
@@ -17,19 +17,14 @@ Deploy the sample web applications
 kubectl apply -f 0.webapp.yaml
 ```
 
-Deploy the JWK secret
+Deploy an access control policy that denies requests from clients with an IP that belongs to the subnet 10.0.0.0/8
 ```code
-kubectl apply -f 1.jwk-secret.yaml
+kubectl apply -f 1.access-control-policy-deny.yaml
 ```
 
-Deploy the JWT policy
+Publish the application through NGINX Ingress Controller applying the access control policy
 ```code
-kubectl apply -f 2.jwt-policy.yaml
-```
-
-Publish the application through NGINX Ingress Controller applying the JWT policy
-```code
-kubectl apply -f 3.virtual-server.yaml
+kubectl apply -f 2.virtual-server.yaml
 ```
 
 Check the newly created `VirtualServer` resource
@@ -51,14 +46,14 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         VirtualServer
 Metadata:
-  Creation Timestamp:  2024-08-15T13:11:27Z
+  Creation Timestamp:  2024-08-15T14:26:05Z
   Generation:          1
-  Resource Version:    31556
-  UID:                 e2af5849-3079-4069-8a04-67957f843e25
+  Resource Version:    47069
+  UID:                 3c2f02f0-052d-4020-bf83-a24ea1338a66
 Spec:
   Host:  webapp.example.com
   Policies:
-    Name:  jwt-policy
+    Name:  webapp-policy
   Routes:
     Action:
       Pass:  webapp
@@ -77,58 +72,58 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  114s  nginx-ingress-controller  Configuration for default/webapp was added or updated
+  Normal  AddedOrUpdated  26s   nginx-ingress-controller  Configuration for default/webapp was added or updated
 ```
 
-# Test application access
-
-Access the application without a JWT token
-
+Access the application
 ```code
 curl -i -H "Host: webapp.example.com" http://$FQDN
 ```
 
-The reply should be similar to
+NGINX Ingress controller blocks the request as the client IP belongs to subnet `10.0.0.0/8`
 ```
-HTTP/1.1 401 Unauthorized
+HTTP/1.1 403 Forbidden
 Server: nginx/1.25.5
-Date: Thu, 15 Aug 2024 13:14:58 GMT
+Date: Thu, 15 Aug 2024 14:27:14 GMT
 Content-Type: text/html
-Content-Length: 179
+Content-Length: 153
 Connection: keep-alive
-WWW-Authenticate: Bearer realm="MyProductAPI"
 
 <html>
-<head><title>401 Authorization Required</title></head>
+<head><title>403 Forbidden</title></head>
 <body>
-<center><h1>401 Authorization Required</h1></center>
+<center><h1>403 Forbidden</h1></center>
 <hr><center>nginx/1.25.5</center>
 </body>
 </html>
 ```
 
-Access the application using a valid JWT token
-
+Update the access control policy
 ```code
-curl -i -H "Host: webapp.example.com" http://$FQDN -H "token: `cat token.jwt`"
+kubectl apply -f 3.access-control-policy-allow.yaml
 ```
 
-The reply should be similar to
+Access the application
+```code
+curl -i -H "Host: webapp.example.com" http://$FQDN
+```
+
+NGINX Ingress controller allows traffic from subnet `10.0.0.0/8`
 ```
 HTTP/1.1 200 OK
 Server: nginx/1.25.5
-Date: Thu, 15 Aug 2024 13:16:17 GMT
+Date: Thu, 15 Aug 2024 14:30:36 GMT
 Content-Type: text/plain
-Content-Length: 155
+Content-Length: 157
 Connection: keep-alive
-Expires: Thu, 15 Aug 2024 13:16:16 GMT
+Expires: Thu, 15 Aug 2024 14:30:35 GMT
 Cache-Control: no-cache
 
-Server address: 10.42.127.0:8080
-Server name: webapp-6db59b8dcc-hrtjf
-Date: 15/Aug/2024:13:16:17 +0000
+Server address: 10.42.124.176:8080
+Server name: webapp-6db59b8dcc-g2tsd
+Date: 15/Aug/2024:14:30:36 +0000
 URI: /
-Request ID: 2123f3d5709346f0db0e35fc0051e0e6HTTP/1.1 200 OK
+Request ID: e08326b5f2ac13ff12cc8d02479a4098
 ```
 
 Delete the lab
