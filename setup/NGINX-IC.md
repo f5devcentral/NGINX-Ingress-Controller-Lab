@@ -82,7 +82,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 nginx-ingress-5c6c847f86-c4vmw   1/1     Running   0          4s
 ```
 
-Get the Internet-facing, external hostname for the NGINX Ingress Controller
+Check the Internet-facing, external FQDN for the NGINX Ingress Controller
 ```code
 kubectl get svc -n nginx-ingress
 ```
@@ -93,9 +93,19 @@ NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                      
 nginx-ingress   LoadBalancer   172.20.180.63   <NGINX_IC_HOSTNAME>.elb.amazonaws.com   80:32242/TCP,443:31449/TCP   3m53s
 ```
 
+Save the external FQDN to an environment variable
+```code
+export FQDN=`kubectl get svc -n nginx-ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'`
+```
+
+Check the public FQDN
+```code
+echo $FQDN
+```
+
 Send an HTTP request to verify NGINX Ingress Controller can be reached
 ```code
-curl -i http://<NGINX_IC_HOSTNAME>.elb.amazonaws.com
+curl -i http://$FQDN
 ```
 
 The expected response is:

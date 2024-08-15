@@ -8,7 +8,7 @@
 
 ## Keynote with Eficode<br>
 10:00 - 10:30 EEST<br>
-Insights from a customer’s perspective on using NGINX on AWS, emphasizing real-world experience and benefits.  
+Insights from a customer perspective on using NGINX on AWS, emphasizing real-world experience and benefits
 
 ## Keynote with F5<br>
 10:30 - 11:30 EEST<br>
@@ -19,7 +19,7 @@ Insights from a customer’s perspective on using NGINX on AWS, emphasizing real
 
 ## Lunch<br>
 11:30 - 12:30 EEST<br>
-Lunch is included in the day  
+Lunch is included in the day
 
 ## Hands-on workshop with NGINX Labs<br>
 12:30 - 15:00 EEST<br>
@@ -31,17 +31,6 @@ Deploy a demo apps on EKS and publish them through NGINX & test access with diff
 ## Networking and Drinks<br>
 15:45 - 17:00 EEST
 
-# NGINX Demo use cases (roughly 20 minutes per use case)<br>
-- Basic Ingress Controller (using "Ingress" and the "VirtualServer" CRD)
-- Active healthchecks
-- Layer 7 routing
-- Custom error pages
-- Canary testing
-- Authentication
-- IP-based access control
-- NGINX App Protect WAF
-
-# Housekeeping
 
 ## Support
 
