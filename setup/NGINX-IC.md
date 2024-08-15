@@ -1,5 +1,7 @@
 # NGINX Plus Ingress Controller installation
 
+Lab time: ~20 minutes
+
 * NGINX Ingress Controller documentation: https://docs.nginx.com//nginx-ingress-controller/
 * Installation with manifests: https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-manifests/
 
@@ -64,23 +66,48 @@ Apply the Deployment manifest to install NGINX Ingress Controller
 kubectl apply -f ../NGINX-Ingress-Controller-Lab/setup/manifests/nginx-plus-ingress.yaml
 ```
 
-Expose NGINX Ingress Controller through AWS Load Balancer
+Publish NGINX Ingress Controller through AWS Load Balancer
 ```code
 kubectl apply -f ../NGINX-Ingress-Controller-Lab/setup/manifests/nginx-plus-ingress-svc.yaml
 ```
 
-### Test NGINX Ingress Controller reachability
+### Check NGINX Ingress Controller status
 
-Get the Internet-facing, external hostname for the NGINX Ingress Controller
+Verify that the NGINX Ingress Controller pod is in the `Running` state
 ```code
-WSParticipantRole:~/environment/kubernetes-ingress ((v3.6.1)) $ kubectl get svc -n nginx-ingress
-NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)                      AGE
-nginx-ingress   LoadBalancer   172.20.180.63   <NGINX_IC_HOSTNAME>.us-west-2.elb.amazonaws.com   80:32242/TCP,443:31449/TCP   3m53s
+kubectl get pods -n nginx-ingress
 ```
 
-Send an HTTP request to verify NGINX Ingress Controller can be reached
+Output should be similar to
+```
+NAME                             READY   STATUS    RESTARTS   AGE
+nginx-ingress-5c6c847f86-c4vmw   1/1     Running   0          4s
+```
+
+Check the Internet-facing, external FQDN for the NGINX Ingress Controller
 ```code
-curl -i http://<NGINX_IC_HOSTNAME>.us-west-2.elb.amazonaws.com
+kubectl get svc -n nginx-ingress
+```
+
+Output should be similar to
+```
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                             PORT(S)                      AGE
+nginx-ingress   LoadBalancer   172.20.180.63   <NGINX_IC_HOSTNAME>.elb.amazonaws.com   80:32242/TCP,443:31449/TCP   3m53s
+```
+
+Save the external FQDN to an environment variable
+```code
+export FQDN=`kubectl get svc -n nginx-ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}'`
+```
+
+Check the public FQDN
+```code
+echo $FQDN
+```
+
+Send an HTTP request to verify NGINX Ingress Controller can be reached. It might a few seconds for NGINX to be reachable from the public Internet after the initial deployment
+```code
+curl -i http://$FQDN
 ```
 
 The expected response is:
@@ -99,4 +126,23 @@ Connection: keep-alive
 <hr><center>nginx/1.25.5</center>
 </body>
 </html>
+```
+
+Check NGINX Ingress Controller pod logs
+```code
+kubectl logs -l app=nginx-ingress -n nginx-ingress
+```
+
+Output should be similar to
+```
+New level: TS_CRIT
+New file num: 2
+New ALL module: ALL
+New ALL level: TS_ERR
+New ALL level: TS_WARNING
+New ALL level: TS_NOTICE
+New ALL level: TS_CRIT
+New ALL file num: 2
+I0815 09:34:56.602065       1 leaderelection.go:260] successfully acquired lease nginx-ingress/nginx-ingress-leader-election
+10.42.88.234 - - [15/Aug/2024:09:39:56 +0000] "GET / HTTP/1.1" 404 153 "-" "curl/8.3.0" "-"
 ```
