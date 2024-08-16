@@ -15,6 +15,11 @@ Check the public FQDN
 echo $FQDN
 ```
 
+`cd` into the lab directory
+```code
+cd ~/environment/NGINX-Ingress-Controller-Lab/labs/4.traffic-splitting
+```
+
 Deploy the sample web applications
 ```code
 kubectl apply -f 0.cafe.yaml
@@ -120,6 +125,18 @@ Server name: coffee-v2-685fd9bb65-6zr4k
 Date: 15/Aug/2024:14:06:30 +0000
 URI: /coffee
 Request ID: 948bce631584e1d8e2a6d4bc611fc0a1
+```
+
+Test access using the script provided. It sends 100 requests and shows the traffic split ratio
+```code
+. ./count.sh
+```
+
+Output should be similar to
+```
+Summary of responses:
+Coffee v1: 90 times
+Coffee v2: 10 times
 ```
 
 Delete the lab

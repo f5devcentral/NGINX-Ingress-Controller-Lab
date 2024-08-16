@@ -15,6 +15,11 @@ Check the public FQDN
 echo $FQDN
 ```
 
+`cd` into the lab directory
+```code
+cd ~/environment/NGINX-Ingress-Controller-Lab/labs/1.basic-ingress
+```
+
 Deploy two sample web applications
 ```code
 kubectl apply -f 0.cafe.yaml
@@ -71,7 +76,7 @@ NAME           CLASS   HOSTS              ADDRESS                               
 cafe-ingress   nginx   cafe.example.com   a87ecf270237f42878ecc7256d2f5fa4-1110491658.us-west-2.elb.amazonaws.com   80, 443   13s
 ```
 
-Test application access (#test-application-access)
+[Test](#test-application-access) application access
 
 Delete the `Ingress` resource
 
@@ -95,7 +100,7 @@ NAME   STATE   HOST               IP    EXTERNALHOSTNAME                        
 cafe   Valid   cafe.example.com         a87ecf270237f42878ecc7256d2f5fa4-1110491658.us-west-2.elb.amazonaws.com   [80,443]   38s
 ```
 
-Test application access (#test-application-access)
+[Test](#test-application-access) application access
 
 Delete the lab
 

@@ -18,9 +18,47 @@ Check the public FQDN
 echo $FQDN
 ```
 
+`cd` into the lab directory
+```code
+cd ~/environment/NGINX-Ingress-Controller-Lab/labs/2.advanced-routing
+```
+
 Deploy two sample web applications
 ```code
 kubectl apply -f 0.cafe.yaml
+```
+
+Check all application pods deployed
+```code
+kubectl get all
+```
+
+Output should be similar to
+```
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/coffee-v1-c48b96b65-pkvlw    1/1     Running   0          33s
+pod/coffee-v2-685fd9bb65-m6zgv   1/1     Running   0          33s
+pod/tea-596697966f-26swq         1/1     Running   0          33s
+pod/tea-post-5647b8d885-9zq6f    1/1     Running   0          33s
+
+NAME                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/coffee-v1-svc   ClusterIP   172.20.122.65    <none>        80/TCP    33s
+service/coffee-v2-svc   ClusterIP   172.20.195.88    <none>        80/TCP    33s
+service/kubernetes      ClusterIP   172.20.0.1       <none>        443/TCP   22h
+service/tea-post-svc    ClusterIP   172.20.194.126   <none>        80/TCP    33s
+service/tea-svc         ClusterIP   172.20.188.11    <none>        80/TCP    33s
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/coffee-v1   1/1     1            1           33s
+deployment.apps/coffee-v2   1/1     1            1           33s
+deployment.apps/tea         1/1     1            1           33s
+deployment.apps/tea-post    1/1     1            1           33s
+
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/coffee-v1-c48b96b65    1         1         1       33s
+replicaset.apps/coffee-v2-685fd9bb65   1         1         1       33s
+replicaset.apps/tea-596697966f         1         1         1       33s
+replicaset.apps/tea-post-5647b8d885    1         1         1       33s
 ```
 
 Create TLS certificate and key to be used for TLS offload

@@ -12,6 +12,11 @@ Check the public FQDN
 echo $FQDN
 ```
 
+`cd` into the lab directory
+```code
+cd ~/environment/NGINX-Ingress-Controller-Lab/labs/3.authentication
+```
+
 Deploy the sample web applications
 ```code
 kubectl apply -f 0.webapp.yaml

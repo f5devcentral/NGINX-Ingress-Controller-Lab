@@ -54,6 +54,8 @@ kubectl apply -f ./deploy/crds-nap-waf.yaml
 
 #### Create the authentication Kubernetes secret
 
+Note: The JWT authentication token will be provided by the instructor
+
 This secret is needed to be able to pull the NGINX Plus Ingress Controller docker image from the NGINX private registry
 ```code
 kubectl create secret docker-registry regcred --docker-server=private-registry.nginx.com --docker-username=<JWT Token> --docker-password=none -n nginx-ingress 
