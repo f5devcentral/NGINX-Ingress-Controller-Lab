@@ -129,7 +129,7 @@ Request ID: 948bce631584e1d8e2a6d4bc611fc0a1
 
 Test access using the script provided. It sends 100 requests and shows the traffic split ratio
 ```code
-. ./count.sh
+. ./test.sh
 ```
 
 Output should be similar to
