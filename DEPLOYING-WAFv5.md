@@ -36,12 +36,12 @@ curl -s https://private-registry.nginx.com/v2/nginx-ic-nap-v5/nginx-plus-ingress
 
 Note: `<nginx-one-eval.key>` and `<nginx-one-eval.key>` are the path and filename of your `nginx-one-eval.crt` and `nginx-one-eval.crt` files respectively
 
-Pick the latest version (`5.4.0` at the time of writing)
+Pick the latest version (`5.4.1` at the time of writing)
 
 5. Apply NGINX Ingress Controller custom resources (make sure the URI below references the latest available `5.x` NGINX Ingress Controller version)
 ```code
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.0/deploy/crds.yaml
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.0/deploy/crds-nap-waf.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds-nap-waf.yaml
 ```
 
 6. Create the PVCs to store compiled WAF policy bundles and logging profiles
@@ -53,9 +53,9 @@ kubectl apply -f ./deployment/pvcs.yaml
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
-  --version 2.5.0 \
+  --version 2.5.1 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress \
-  --set controller.image.tag=5.4.0 \
+  --set controller.image.tag=5.4.1 \
   --set controller.nginxplus=true \
   --set controller.appprotect.enable=true \
   --set controller.appprotect.v5=true \
@@ -90,16 +90,16 @@ kubectl logs -l app.kubernetes.io/instance=nic -n nginx-ingress -c nginx-ingress
 Output should be similar to
 
 ```code
-2026/03/23 09:55:24 [notice] 21#21: exit
-2026/03/23 09:55:24 [notice] 20#20: exit
-I20260323 09:55:24.506898   1 main.go:112] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"ff6817b1-1df0-48d8-a245-1e2829295732", APIVersion:"v1", ResourceVersion:"104790719", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
-I20260323 09:55:24.506932   1 main.go:112] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"cf416017-35d2-4a89-b602-e841e0134150", APIVersion:"v1", ResourceVersion:"104790717", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
-2026/03/23 09:55:24 [notice] 13#13: signal 17 (SIGCHLD) received from 21
-2026/03/23 09:55:24 [notice] 13#13: worker process 21 exited with code 0
-2026/03/23 09:55:24 [notice] 13#13: signal 29 (SIGIO) received
-2026/03/23 09:55:24 [notice] 13#13: signal 17 (SIGCHLD) received from 20
-2026/03/23 09:55:24 [notice] 13#13: worker process 20 exited with code 0
-2026/03/23 09:55:24 [notice] 13#13: signal 29 (SIGIO) received
+I20260409 15:57:09.501899   1 main.go:112] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"72830f00-d69c-400c-9f11-611df7a9b418", APIVersion:"v1", ResourceVersion:"108817766", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
+I20260409 15:57:09.501926   1 main.go:112] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"4bfd2675-012e-43cb-a7a2-2aa57da79561", APIVersion:"v1", ResourceVersion:"108817764", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
+2026/04/09 15:57:09 [notice] 15#15: signal 17 (SIGCHLD) received from 20
+2026/04/09 15:57:09 [notice] 15#15: worker process 20 exited with code 0
+2026/04/09 15:57:09 [notice] 15#15: signal 29 (SIGIO) received
+2026/04/09 15:57:09 [notice] 15#15: signal 17 (SIGCHLD) received from 21
+2026/04/09 15:57:09 [notice] 15#15: worker process 21 exited with code 0
+2026/04/09 15:57:09 [notice] 15#15: signal 29 (SIGIO) received
+BD_MISC|NOTICE|Apr 09 15:57:25.411|0036|/builds/t1_xXBa_N/12/waf/waf-general/secore/bd/bd/temp_func.c:2874|UMU: 0 0 || 0 0 0 0 0 0 0 0 0 0 0 0 || 0 0 0 0 0 0 0 
+BD_MISC|NOTICE|Apr 09 15:57:25.411|0036|/builds/t1_xXBa_N/12/waf/waf-general/secore/bd/bd/temp_func.c:2875|UMU: total     0 (  0Kb) VM (486M) RSS ( 49M) SWAP (  0M) Cache (0) trans     0
 ```
 
 10. Check Kubernetes service status
@@ -189,9 +189,9 @@ helm uninstall nic -n nginx-ingress
 kubectl delete namespace nginx-ingress
 ```
 
-2. Delete custom resources
+3. Delete custom resources
 
 ```code
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.0/deploy/crds.yaml
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.0/deploy/crds-nap-waf.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds-nap-waf.yaml
 ```
