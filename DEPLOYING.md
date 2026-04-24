@@ -138,5 +138,5 @@ kubectl delete namespace nginx-ingress
 
 ```code
 kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds.yaml
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.10/deploy/crds-nap-waf.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds-nap-waf.yaml
 ```
