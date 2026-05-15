@@ -36,12 +36,12 @@ curl -s https://private-registry.nginx.com/v2/nginx-ic-nap-v5/nginx-plus-ingress
 
 Note: `<nginx-one-eval.key>` and `<nginx-one-eval.key>` are the path and filename of your `nginx-one-eval.crt` and `nginx-one-eval.crt` files respectively
 
-Pick the latest version (`5.4.1` at the time of writing)
+Pick the latest version (`5.4.2` at the time of writing)
 
 5. Apply NGINX Ingress Controller custom resources (make sure the URI below references the latest available `5.x` NGINX Ingress Controller version)
 ```code
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds.yaml
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds-nap-waf.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.2/deploy/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.2/deploy/crds-nap-waf.yaml
 ```
 
 6. Create the PVCs to store compiled WAF policy bundles and logging profiles
@@ -53,9 +53,9 @@ kubectl apply -f ./deployment/pvcs.yaml
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
-  --version 2.5.1 \
+  --version 2.5.2 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress \
-  --set controller.image.tag=5.4.1 \
+  --set controller.image.tag=5.4.2 \
   --set controller.nginxplus=true \
   --set controller.appprotect.enable=true \
   --set controller.appprotect.v5=true \
@@ -192,6 +192,6 @@ kubectl delete namespace nginx-ingress
 3. Delete custom resources
 
 ```code
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds.yaml
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.1/deploy/crds-nap-waf.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.2/deploy/crds.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.4.2/deploy/crds-nap-waf.yaml
 ```
