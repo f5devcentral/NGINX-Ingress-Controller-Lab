@@ -1,4 +1,4 @@
-# F5 WAF for NGINX
+	# F5 WAF for NGINX
 
 This use case applies WAF protection to a sample application exposed through NGINX Ingress Controller
 
@@ -28,7 +28,7 @@ cd artifacts
 chmod 777 .
 docker run --rm \
  -v $(pwd):$(pwd) \
- waf-compiler-5.11.2:custom \
+ waf-compiler-5.13.1:custom \
  -include-source -full-export -g $(pwd)/global_settings.json -p $(pwd)/waf_policy.json -o $(pwd)/waf_policy.tgz
 ```
 
@@ -37,20 +37,20 @@ The output should be similar to
 {
   "completed_successfully": true,
   "compiler_engine": "express",
-  "compiler_version": "11.608.0",
+  "compiler_version": "11.608.2",
   "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/waf_policy.tgz",
-  "file_size": 1862742,
+  "file_size": 1887047,
   "attack_signatures_package": {
-    "version": "2026.02.11",
-    "revision_datetime": "2026-02-11T14:34:04Z"
+    "version": "2026.05.27",
+    "revision_datetime": "2026-05-27T18:00:54Z"
   },
   "bot_signatures_package": {
-    "version": "2026.02.11",
-    "revision_datetime": "2026-02-11T15:20:49Z"
+    "version": "2026.05.28",
+    "revision_datetime": "2026-05-28T13:37:15Z"
   },
   "threat_campaigns_package": {
-    "version": "2026.02.16",
-    "revision_datetime": "2026-02-16T10:33:29Z"
+    "version": "2026.06.01",
+    "revision_datetime": "2026-06-01T07:09:53Z"
   }
 }
 ```
@@ -61,18 +61,18 @@ Compile the WAF log profile
 ```code
 docker run \
   -v $(pwd):$(pwd) \
-  waf-compiler-5.11.2:custom \
+  waf-compiler-5.13.1:custom \
   -l $(pwd)/log_profile.json -o $(pwd)/log_profile.tgz
 ```
 
 The output should be similar to
 ```code
 {
-  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz",
-  "file_size": 1691,
   "completed_successfully": true,
+  "file_size": 1690,
   "compiler_engine": "full",
-  "compiler_version": "11.608.0"
+  "compiler_version": "11.608.2",
+  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz"
 }
 ```
 
@@ -121,10 +121,10 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         Policy
 Metadata:
-  Creation Timestamp:  2026-02-25T16:08:51Z
+  Creation Timestamp:  2026-06-03T13:07:15Z
   Generation:          1
-  Resource Version:    98780287
-  UID:                 663e319b-17e8-41f5-80c9-7076f40ff6d1
+  Resource Version:    120952526
+  UID:                 eaf848d7-bb38-452a-815b-a31ef9402127
 Spec:
   Waf:
     Ap Bundle:  waf_policy.tgz
@@ -140,7 +140,7 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  26s   nginx-ingress-controller  Policy default/waf-policy was added or updated
+  Normal  AddedOrUpdated  4s    nginx-ingress-controller  Policy default/waf-policy was added or updated
 ```
 
 Publish the application through NGINX Ingress Controller applying the WAF policy
@@ -173,10 +173,10 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         VirtualServer
 Metadata:
-  Creation Timestamp:  2025-04-03T21:03:22Z
+  Creation Timestamp:  2026-06-03T13:07:58Z
   Generation:          1
-  Resource Version:    251235
-  UID:                 5e08b717-01b0-482d-8e20-10de3374a8f7
+  Resource Version:    120952658
+  UID:                 70a421a8-baeb-4e3c-aeba-43d7c602292c
 Spec:
   Host:  webapp.example.com
   Policies:
@@ -196,7 +196,7 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  1s    nginx-ingress-controller  Configuration for default/webapp was added or updated
+  Normal  AddedOrUpdated  11s   nginx-ingress-controller  Configuration for default/webapp was added or updated
 ```
 
 Access the application using a legitimate request
@@ -207,18 +207,18 @@ curl -i -H "Host: webapp.example.com" http://$NIC_IP:$HTTP_PORT
 Output should be similar to
 ```code
 HTTP/1.1 200 OK
-Date: Thu, 03 Apr 2025 21:03:43 GMT
+Date: Wed, 03 Jun 2026 13:12:48 GMT
 Content-Type: text/plain
-Content-Length: 158
+Content-Length: 153
 Connection: keep-alive
-Expires: Thu, 03 Apr 2025 21:03:42 GMT
+Expires: Wed, 03 Jun 2026 13:12:47 GMT
 Cache-Control: no-cache
 
-Server address: 192.168.36.103:8080
-Server name: webapp-6db59b8dcc-l5dsk
-Date: 03/Apr/2025:21:03:43 +0000
+Server address: 10.0.86.8:8080
+Server name: webapp-558ff5c8f6-5jpvl
+Date: 03/Jun/2026:13:12:48 +0000
 URI: /
-Request ID: 204ea07975ae1618b29728b25f129498
+Request ID: 740e25c98fd7e928b1bbad6e11e2fc7e
 ```
 
 Access the application using a suspicious URL
@@ -233,9 +233,9 @@ Content-Type: text/html; charset=utf-8
 Connection: close
 Cache-Control: no-cache
 Pragma: no-cache
-Content-Length: 247
+Content-Length: 246
 
-<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: 15024425679859283163<br><br><a href='javascript:history.back();'>[Go Back]</a></body></html>
+<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: 5712263780975477505<br><br><a href='javascript:history.back();'>[Go Back]</a></body></html>
 ```
 
 Check the security violation logs in the `syslog` pod
