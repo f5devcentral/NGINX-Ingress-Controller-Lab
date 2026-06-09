@@ -1,4 +1,4 @@
-	# F5 WAF for NGINX
+# F5 WAF for NGINX
 
 This use case applies WAF protection to a sample application exposed through NGINX Ingress Controller
 
