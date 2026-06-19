@@ -36,12 +36,12 @@ curl -s https://private-registry.nginx.com/v2/nginx-ic-nap-v5/nginx-plus-ingress
 
 Note: `<nginx-one-eval.key>` and `<nginx-one-eval.key>` are the path and filename of your `nginx-one-eval.crt` and `nginx-one-eval.crt` files respectively
 
-Pick the latest version (`5.5.0` at the time of writing)
+Pick the latest version (`5.5.1` at the time of writing)
 
 5. Apply NGINX Ingress Controller custom resources (make sure the URI below references the latest available `5.x` NGINX Ingress Controller version)
 ```code
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.0/deploy/crds.yaml
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.0/deploy/crds-nap-waf.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.1/deploy/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.1/deploy/crds-nap-waf.yaml
 ```
 
 6. Create the PVCs to store compiled WAF policy bundles and logging profiles
@@ -53,9 +53,9 @@ kubectl apply -f ./deployment/pvcs.yaml
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
-  --version 2.6.0 \
+  --version 2.6.1 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress \
-  --set controller.image.tag=5.5.0 \
+  --set controller.image.tag=5.5.1 \
   --set controller.nginxplus=true \
   --set controller.appprotect.enable=true \
   --set controller.appprotect.v5=true \
@@ -90,16 +90,16 @@ kubectl logs -l app.kubernetes.io/instance=nic -n nginx-ingress -c nginx-ingress
 Output should be similar to
 
 ```code
-2026/06/03 12:59:15 [notice] 21#21: exit
-2026/06/03 12:59:15 [notice] 20#20: exit
-I20260603 12:59:15.483509   1 main.go:110] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"c831b246-2605-46f9-9239-e95d83fecc8a", APIVersion:"v1", ResourceVersion:"120951043", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
-I20260603 12:59:15.483544   1 main.go:110] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"b27d78ca-b4aa-4950-8740-8024deb3fd7b", APIVersion:"v1", ResourceVersion:"120951041", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
-2026/06/03 12:59:15 [notice] 14#14: signal 17 (SIGCHLD) received from 21
-2026/06/03 12:59:15 [notice] 14#14: worker process 21 exited with code 0
-2026/06/03 12:59:15 [notice] 14#14: signal 29 (SIGIO) received
-2026/06/03 12:59:15 [notice] 14#14: signal 17 (SIGCHLD) received from 20
-2026/06/03 12:59:15 [notice] 14#14: worker process 20 exited with code 0
-2026/06/03 12:59:15 [notice] 14#14: signal 29 (SIGIO) received
+2026/06/19 09:30:33 [notice] 18#18: exit
+2026/06/19 09:30:33 [notice] 19#19: exit
+I20260619 09:30:33.098169   1 main.go:110] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"e72b89e5-bb56-4383-aed7-dc81768300f1", APIVersion:"v1", ResourceVersion:"124540451", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
+I20260619 09:30:33.098202   1 main.go:110] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"2e36742c-63c5-4701-9a32-f5f94e0f3cee", APIVersion:"v1", ResourceVersion:"124540450", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
+2026/06/19 09:30:33 [notice] 12#12: signal 17 (SIGCHLD) received from 18
+2026/06/19 09:30:33 [notice] 12#12: worker process 18 exited with code 0
+2026/06/19 09:30:33 [notice] 12#12: signal 29 (SIGIO) received
+2026/06/19 09:30:33 [notice] 12#12: signal 17 (SIGCHLD) received from 19
+2026/06/19 09:30:33 [notice] 12#12: worker process 19 exited with code 0
+2026/06/19 09:30:33 [notice] 12#12: signal 29 (SIGIO) received
 ```
 
 10. Check Kubernetes service status
@@ -212,6 +212,6 @@ kubectl delete namespace nginx-ingress
 3. Delete custom resources
 
 ```code
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.0/deploy/crds.yaml
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.0/deploy/crds-nap-waf.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.1/deploy/crds.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.1/deploy/crds-nap-waf.yaml
 ```
