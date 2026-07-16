@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG BASE_IMAGE=private-registry.nginx.com/nap/waf-compiler:5.11.2
+ARG BASE_IMAGE=private-registry.nginx.com/nap/waf-compiler:5.13.4
 FROM ${BASE_IMAGE}
 
 # Installing packages as root

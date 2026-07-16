@@ -28,7 +28,7 @@ cd artifacts
 chmod 777 .
 docker run --rm \
  -v $(pwd):$(pwd) \
- waf-compiler-5.13.1:custom \
+ waf-compiler-5.13.4:custom \
  -include-source -full-export -g $(pwd)/global_settings.json -p $(pwd)/waf_policy.json -o $(pwd)/waf_policy.tgz
 ```
 
@@ -36,21 +36,23 @@ The output should be similar to
 ```code
 {
   "completed_successfully": true,
+  "policy_name": "simple-blocking-policy",
   "compiler_engine": "express",
-  "compiler_version": "11.608.2",
-  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/waf_policy.tgz",
-  "file_size": 1887047,
+  "compiler_version": "11.665.4",
+  "filename": "/home/nginx/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/waf_policy.tgz",
+  "file_size": 1898016,
+  "sha256": "efcb2ddc96cf24ec83321e0effc06f4127ba6f2306b85e8092f363c80f8621e7",
   "attack_signatures_package": {
-    "version": "2026.05.27",
-    "revision_datetime": "2026-05-27T18:00:54Z"
+    "version": "2026.07.08",
+    "revision_datetime": "2026-07-08T14:04:12Z"
   },
   "bot_signatures_package": {
-    "version": "2026.05.28",
-    "revision_datetime": "2026-05-28T13:37:15Z"
+    "version": "2026.07.07",
+    "revision_datetime": "2026-07-07T12:23:20Z"
   },
   "threat_campaigns_package": {
-    "version": "2026.06.01",
-    "revision_datetime": "2026-06-01T07:09:53Z"
+    "version": "2026.07.13",
+    "revision_datetime": "2026-07-13T11:56:06Z"
   }
 }
 ```
@@ -61,18 +63,19 @@ Compile the WAF log profile
 ```code
 docker run \
   -v $(pwd):$(pwd) \
-  waf-compiler-5.13.1:custom \
+  waf-compiler-5.13.4:custom \
   -l $(pwd)/log_profile.json -o $(pwd)/log_profile.tgz
 ```
 
 The output should be similar to
 ```code
 {
-  "completed_successfully": true,
-  "file_size": 1690,
   "compiler_engine": "full",
-  "compiler_version": "11.608.2",
-  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz"
+  "filename": "/home/nginx/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz",
+  "file_size": 1695,
+  "sha256": "3a4a1f7da4c0f3cd4301c7742a8d687208460b2794eea5be791d2b20172328c0",
+  "completed_successfully": true,
+  "compiler_version": "11.665.4"
 }
 ```
 
@@ -121,10 +124,10 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         Policy
 Metadata:
-  Creation Timestamp:  2026-06-03T13:07:15Z
+  Creation Timestamp:  2026-07-16T09:33:23Z
   Generation:          1
-  Resource Version:    120952526
-  UID:                 eaf848d7-bb38-452a-815b-a31ef9402127
+  Resource Version:    130416962
+  UID:                 7e952474-109d-40c2-b34b-ad5f58abfe95
 Spec:
   Waf:
     Ap Bundle:  waf_policy.tgz
@@ -140,7 +143,7 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  4s    nginx-ingress-controller  Policy default/waf-policy was added or updated
+  Normal  AddedOrUpdated  1s    nginx-ingress-controller  Policy default/waf-policy was added or updated
 ```
 
 Publish the application through NGINX Ingress Controller applying the WAF policy
@@ -156,7 +159,7 @@ kubectl get vs -o wide
 Output should be similar to
 ```code
 NAME     STATE   HOST                 IP    EXTERNALHOSTNAME   PORTS   AGE
-webapp   Valid   webapp.example.com                                    9m49s
+webapp   Valid   webapp.example.com                                    5s
 ```
 
 Describe the `webapp` virtualserver
@@ -173,10 +176,10 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         VirtualServer
 Metadata:
-  Creation Timestamp:  2026-06-03T13:07:58Z
+  Creation Timestamp:  2026-07-16T09:33:41Z
   Generation:          1
-  Resource Version:    120952658
-  UID:                 70a421a8-baeb-4e3c-aeba-43d7c602292c
+  Resource Version:    130417034
+  UID:                 131fab28-1d09-4478-a6cb-dc8bc73075a1
 Spec:
   Host:  webapp.example.com
   Policies:
@@ -196,7 +199,7 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  11s   nginx-ingress-controller  Configuration for default/webapp was added or updated
+  Normal  AddedOrUpdated  10s   nginx-ingress-controller  Configuration for default/webapp was added or updated
 ```
 
 Access the application using a legitimate request
