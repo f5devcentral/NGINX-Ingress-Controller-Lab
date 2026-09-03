@@ -42,12 +42,12 @@ curl -s https://private-registry.nginx.com/v2/nginx-ic-nap-v5/nginx-plus-ingress
 
 Note: `<nginx-one-eval.key>` and `<nginx-one-eval.key>` are the path and filename of your `nginx-one-eval.crt` and `nginx-one-eval.crt` files respectively
 
-Pick the latest version (`5.5.4` at the time of writing)
+Pick the latest version (`5.6.0` at the time of writing)
 
 6. Apply NGINX Ingress Controller custom resources (make sure the URI below references the latest available `5.x` NGINX Ingress Controller version)
 ```code
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.4/deploy/crds.yaml
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.5.4/deploy/crds-nap-waf.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.0/deploy/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.0/deploy/crds-nap-waf.yaml
 ```
 
 7. Create the PVCs to store compiled WAF policy bundles and logging profiles
@@ -59,9 +59,9 @@ kubectl apply -f ./deployment/pvcs.yaml
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
-  --version 2.6.4 \
+  --version 2.7.0 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress \
-  --set controller.image.tag=5.5.4 \
+  --set controller.image.tag=5.6.0 \
   --set controller.nginxplus=true \
   --set controller.appprotect.enable=true \
   --set controller.appprotect.v5=true \
@@ -83,8 +83,8 @@ kubectl get pods -n nginx-ingress
 Pod should be in the `Running` state
 
 ```code
-NAME                                            READY   STATUS    RESTARTS   AGE
-nic-nginx-ingress-controller-6bd49ddbdd-k8dlb   3/3     Running   0          110s
+NAME                                           READY   STATUS    RESTARTS   AGE
+nic-nginx-ingress-controller-fc7546d97-9lcbk   3/3     Running   0          22s
 ```
 
 10. Check NGINX Ingress Controller logs
@@ -93,19 +93,16 @@ nic-nginx-ingress-controller-6bd49ddbdd-k8dlb   3/3     Running   0          110
 kubectl logs -l app.kubernetes.io/instance=nic -n nginx-ingress -c nginx-ingress
 ```
 
-Output should be similar to
+Output should be similar to the following
 
 ```code
-2026/07/28 14:39:00 [notice] 19#19: exiting
-2026/07/28 14:39:00 [notice] 19#19: APP_PROTECT { "event": "waf_disconnected", "enforcer_thread_id": 0, "worker_pid": 19, "mode": "operational", "mode_changed": false}
-2026/07/28 14:39:00 [notice] 20#20: exit
-2026/07/28 14:39:00 [notice] 19#19: exit
-I20260728 14:39:00.471372   1 main.go:110] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"2ff14e1f-3b31-415d-b074-281b176f240d", APIVersion:"v1", ResourceVersion:"133191548", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
-I20260728 14:39:00.471407   1 main.go:110] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"8aba8089-d438-4a69-aa69-612dcfbd5b33", APIVersion:"v1", ResourceVersion:"133191547", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
-2026/07/28 14:39:00 [notice] 12#12: signal 17 (SIGCHLD) received from 19
-2026/07/28 14:39:00 [notice] 12#12: worker process 19 exited with code 0
-2026/07/28 14:39:00 [notice] 12#12: worker process 20 exited with code 0
-2026/07/28 14:39:00 [notice] 12#12: signal 29 (SIGIO) received
+2026/09/03 08:48:52 [notice] 13#13: worker process 18 exited with code 0
+2026/09/03 08:48:52 [notice] 13#13: signal 29 (SIGIO) received
+I20260903 08:48:52.110116   1 main.go:112] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"20fd003a-009f-4176-9881-eb1b1627af01", APIVersion:"v1", ResourceVersion:"225394316", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
+I20260903 08:48:52.110176   1 main.go:112] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"7906d15b-c28d-4dd8-9c41-68ba84f2e1ce", APIVersion:"v1", ResourceVersion:"225394315", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
+2026/09/03 08:48:52 [notice] 13#13: signal 17 (SIGCHLD) received from 19
+2026/09/03 08:48:52 [notice] 13#13: worker process 19 exited with code 0
+2026/09/03 08:48:52 [notice] 13#13: signal 29 (SIGIO) received
 ```
 
 11. Check Kubernetes service status
@@ -117,8 +114,8 @@ kubectl get svc -n nginx-ingress
 NGINX Ingress Controller should be listening on TCP ports 80 and 443
 
 ```code
-NAME                           TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
-nic-nginx-ingress-controller   NodePort   10.106.220.140   <none>        80:31537/TCP,443:30695/TCP   2m12s
+NAME                           TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+nic-nginx-ingress-controller   NodePort   10.99.199.74   <none>        80:32507/TCP,443:31477/TCP   71s
 ```
 
 12. Check the `ingressclass`
@@ -131,7 +128,7 @@ The `nginx` ingressclass should be available
 
 ```code
 NAME    CONTROLLER                     PARAMETERS   AGE
-nginx   nginx.org/ingress-controller   <none>       2m20s
+nginx   nginx.org/ingress-controller   <none>       85s
 ```
 
 ## Build the WAF compiler
@@ -148,45 +145,51 @@ sudo cp <nginx-one-eval.crt> /etc/docker/certs.d/private-registry.nginx.com/clie
 sudo cp <nginx-one-eval.key> /etc/docker/certs.d/private-registry.nginx.com/client.key
 ```
 
-3. Build the F5 WAF for NGINX compiler (`5.13.4` at the time of writing):
+3. Build the F5 WAF for NGINX compiler (`5.15.0` at the time of writing):
 ```code
 docker build -f deployment/Dockerfile --no-cache --platform linux/amd64 \
   --secret id=nginx-crt,src=<nginx-one-eval.crt> \
   --secret id=nginx-key,src=<nginx-one-eval.key> \
-  -t waf-compiler-5.13.4:custom .
+  -t waf-compiler-5.15.0:custom .
 ```
 
-4. The output should be similar to
+4. The output should be similar to the following
 ```code
-[+] Building 145.8s (8/8) FINISHED                                                                                                                                                 docker:default
- => [internal] load build definition from Dockerfile                                                                                                                                         2.5s
- => => transferring dockerfile: 1.36kB                                                                                                                                                       0.0s
- => resolve image config for docker-image://docker.io/docker/dockerfile:1                                                                                                                    2.3s
- => CACHED docker-image://docker.io/docker/dockerfile:1@sha256:87999aa3d42bdc6bea60565083ee17e86d1f3339802f543c0d03998580f9cb89                                                              0.0s
- => [internal] load metadata for private-registry.nginx.com/nap/waf-compiler:5.13.4                                                                                                          0.5s
- => [internal] load .dockerignore                                                                                                                                                            0.2s
- => => transferring context: 2B                                                                                                                                                              0.0s
- => [stage-0 1/2] FROM private-registry.nginx.com/nap/waf-compiler:5.13.4@sha256:4076d5eeda51fa7fd36ad9843d057eb73651c9c9900ee49916ec4132fb334170                                           52.2s
- => => resolve private-registry.nginx.com/nap/waf-compiler:5.13.4@sha256:4076d5eeda51fa7fd36ad9843d057eb73651c9c9900ee49916ec4132fb334170                                                    0.1s
- => => sha256:043d3c43881aec778f347f1775f20fbe162cb2e7d56bfcd625d032a5b31db17c 5.18kB / 5.18kB                                                                                               0.0s
- => => sha256:1d0c5c3a85905b425efa55b278a29ee6685814847d91ad32fc91490cabe886ed 30.65MB / 30.65MB                                                                                             9.5s
- => => sha256:2b3eae2954d26df7120304c9d858ed34e83ce12104d5ae9e782a0635dae6d9a8 53.62MB / 53.62MB                                                                                            21.0s
- => => sha256:4076d5eeda51fa7fd36ad9843d057eb73651c9c9900ee49916ec4132fb334170 1.58kB / 1.58kB                                                                                               0.0s
- => => sha256:48ef0c5f7c213256812e4bf9e1b7c64c6a9d6fb4bf845a55fc90336f533e2a45 637B / 637B                                                                                                   0.3s
- => => sha256:42ab8b69ac4a6dd65385e163bafc993f876b9fe50f68d270d6ce76aa91def229 3.07MB / 3.07MB                                                                                               1.6s
- => => sha256:0ffa98b69097c81a982974ee0f90ec957c0a1a36bc3311670ef5cd62291f5740 21.33MB / 21.33MB                                                                                            12.0s
- => => extracting sha256:1d0c5c3a85905b425efa55b278a29ee6685814847d91ad32fc91490cabe886ed                                                                                                    1.5s
- => => sha256:bb939547934f31035317544edba19fa0476c021f7849c12e63e88164c4c2e6ce 100.43MB / 100.43MB                                                                                          34.1s
- => => extracting sha256:2b3eae2954d26df7120304c9d858ed34e83ce12104d5ae9e782a0635dae6d9a8                                                                                                    1.2s
- => => extracting sha256:48ef0c5f7c213256812e4bf9e1b7c64c6a9d6fb4bf845a55fc90336f533e2a45                                                                                                    0.0s
- => => extracting sha256:42ab8b69ac4a6dd65385e163bafc993f876b9fe50f68d270d6ce76aa91def229                                                                                                    0.1s
- => => extracting sha256:0ffa98b69097c81a982974ee0f90ec957c0a1a36bc3311670ef5cd62291f5740                                                                                                    0.2s
- => => extracting sha256:bb939547934f31035317544edba19fa0476c021f7849c12e63e88164c4c2e6ce                                                                                                    3.8s
- => [stage-0 2/2] RUN --mount=type=secret,id=nginx-crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644     --mount=type=secret,id=nginx-key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644     ap  83.9s
- => exporting to image                                                                                                                                                                       0.5s 
- => => exporting layers                                                                                                                                                                      0.4s 
- => => writing image sha256:9129fbac5fc5fd87de9f8f0cd4b3d6dc1e75ce6250ffe5972efc9bb4160242e5                                                                                                 0.0s 
- => => naming to docker.io/library/waf-compiler-5.13.4:custom                                                                                                                                0.0s
+ => [internal] load build definition from Dockerfile                                                                                                                                                                           0.3s
+ => => transferring dockerfile: 1.36kB                                                                                                                                                                                         0.0s
+ => resolve image config for docker-image://docker.io/docker/dockerfile:1                                                                                                                                                      1.4s
+ => [auth] docker/dockerfile:pull token for registry-1.docker.io                                                                                                                                                               0.0s
+ => docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32                                                                                                       2.9s
+ => => resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32                                                                                                           0.2s
+ => => sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 9.08kB / 9.08kB                                                                                                                                 0.0s
+ => => sha256:34b128e419449565adc5ed7f487a6f503a73f1077012cfed86354c731338c44f 1.13kB / 1.13kB                                                                                                                                 0.0s
+ => => sha256:c844dc65644b70ea8b391444db20ff38537384d800ea9896d46ab8f3ce897f51 1.33kB / 1.33kB                                                                                                                                 0.0s
+ => => sha256:9f624ef51ad55db0ea52d755cc777566386156106fbb4f465eecb22c67ac55ed 14.14MB / 14.14MB                                                                                                                               2.2s
+ => => extracting sha256:9f624ef51ad55db0ea52d755cc777566386156106fbb4f465eecb22c67ac55ed                                                                                                                                      0.2s
+ => [internal] load metadata for private-registry.nginx.com/nap/waf-compiler:5.13.4                                                                                                                                            0.6s
+ => [internal] load .dockerignore                                                                                                                                                                                              0.1s
+ => => transferring context: 2B                                                                                                                                                                                                0.0s
+ => [stage-0 1/2] FROM private-registry.nginx.com/nap/waf-compiler:5.13.4@sha256:4076d5eeda51fa7fd36ad9843d057eb73651c9c9900ee49916ec4132fb334170                                                                             40.2s
+ => => resolve private-registry.nginx.com/nap/waf-compiler:5.13.4@sha256:4076d5eeda51fa7fd36ad9843d057eb73651c9c9900ee49916ec4132fb334170                                                                                      0.0s
+ => => sha256:2b3eae2954d26df7120304c9d858ed34e83ce12104d5ae9e782a0635dae6d9a8 53.62MB / 53.62MB                                                                                                                              20.4s
+ => => sha256:4076d5eeda51fa7fd36ad9843d057eb73651c9c9900ee49916ec4132fb334170 1.58kB / 1.58kB                                                                                                                                 0.0s
+ => => sha256:043d3c43881aec778f347f1775f20fbe162cb2e7d56bfcd625d032a5b31db17c 5.18kB / 5.18kB                                                                                                                                 0.0s
+ => => sha256:1d0c5c3a85905b425efa55b278a29ee6685814847d91ad32fc91490cabe886ed 30.65MB / 30.65MB                                                                                                                              11.4s
+ => => sha256:48ef0c5f7c213256812e4bf9e1b7c64c6a9d6fb4bf845a55fc90336f533e2a45 637B / 637B                                                                                                                                     0.2s
+ => => sha256:42ab8b69ac4a6dd65385e163bafc993f876b9fe50f68d270d6ce76aa91def229 3.07MB / 3.07MB                                                                                                                                 1.6s
+ => => sha256:0ffa98b69097c81a982974ee0f90ec957c0a1a36bc3311670ef5cd62291f5740 21.33MB / 21.33MB                                                                                                                               8.4s
+ => => sha256:bb939547934f31035317544edba19fa0476c021f7849c12e63e88164c4c2e6ce 100.43MB / 100.43MB                                                                                                                            33.1s
+ => => extracting sha256:1d0c5c3a85905b425efa55b278a29ee6685814847d91ad32fc91490cabe886ed                                                                                                                                      1.6s
+ => => extracting sha256:2b3eae2954d26df7120304c9d858ed34e83ce12104d5ae9e782a0635dae6d9a8                                                                                                                                      1.1s
+ => => extracting sha256:48ef0c5f7c213256812e4bf9e1b7c64c6a9d6fb4bf845a55fc90336f533e2a45                                                                                                                                      0.0s
+ => => extracting sha256:42ab8b69ac4a6dd65385e163bafc993f876b9fe50f68d270d6ce76aa91def229                                                                                                                                      0.1s
+ => => extracting sha256:0ffa98b69097c81a982974ee0f90ec957c0a1a36bc3311670ef5cd62291f5740                                                                                                                                      0.2s
+ => => extracting sha256:bb939547934f31035317544edba19fa0476c021f7849c12e63e88164c4c2e6ce                                                                                                                                      5.6s
+ => [stage-0 2/2] RUN --mount=type=secret,id=nginx-crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode=0644     --mount=type=secret,id=nginx-key,dst=/etc/ssl/nginx/nginx-repo.key,mode=0644     apt-get update     && apt-get instal  63.3s
+ => exporting to image                                                                                                                                                                                                         0.6s
+ => => exporting layers                                                                                                                                                                                                        0.4s
+ => => writing image sha256:3f345ec5d1ad3d08cbed5082e209e916cda912dbcd32d24b63cc2f5ef16862cd                                                                                                                                   0.0s
+ => => naming to docker.io/library/waf-compiler-5.15.0:custom                                                                                                                                                                  0.1s
 ```
 
 ## Uninstalling
