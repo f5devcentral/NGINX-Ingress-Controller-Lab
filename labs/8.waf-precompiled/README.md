@@ -28,31 +28,31 @@ cd artifacts
 chmod 777 .
 docker run --rm \
  -v $(pwd):$(pwd) \
- waf-compiler-5.13.4:custom \
+ waf-compiler-5.15.0:custom \
  -include-source -full-export -g $(pwd)/global_settings.json -p $(pwd)/waf_policy.json -o $(pwd)/waf_policy.tgz
 ```
 
-The output should be similar to
+The output should be similar to the following
 ```code
 {
   "completed_successfully": true,
   "policy_name": "simple-blocking-policy",
   "compiler_engine": "express",
   "compiler_version": "11.665.4",
-  "filename": "/home/nginx/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/waf_policy.tgz",
-  "file_size": 1898016,
-  "sha256": "efcb2ddc96cf24ec83321e0effc06f4127ba6f2306b85e8092f363c80f8621e7",
+  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/waf_policy.tgz",
+  "file_size": 1919815,
+  "sha256": "f387c41fb5c993d8d7710cdf1313ddf4008c6e8249f6def5724b9742b53fa84b",
   "attack_signatures_package": {
-    "version": "2026.07.08",
-    "revision_datetime": "2026-07-08T14:04:12Z"
+    "version": "2026.08.26",
+    "revision_datetime": "2026-08-26T14:42:21Z"
   },
   "bot_signatures_package": {
-    "version": "2026.07.07",
-    "revision_datetime": "2026-07-07T12:23:20Z"
+    "version": "2026.09.02",
+    "revision_datetime": "2026-09-02T11:15:52Z"
   },
   "threat_campaigns_package": {
-    "version": "2026.07.13",
-    "revision_datetime": "2026-07-13T11:56:06Z"
+    "version": "2026.09.01",
+    "revision_datetime": "2026-09-01T07:51:35Z"
   }
 }
 ```
@@ -63,18 +63,18 @@ Compile the WAF log profile
 ```code
 docker run \
   -v $(pwd):$(pwd) \
-  waf-compiler-5.13.4:custom \
+  waf-compiler-5.15.0:custom \
   -l $(pwd)/log_profile.json -o $(pwd)/log_profile.tgz
 ```
 
-The output should be similar to
+The output should be similar to the following
 ```code
 {
   "compiler_engine": "full",
-  "filename": "/home/nginx/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz",
-  "file_size": 1695,
-  "sha256": "3a4a1f7da4c0f3cd4301c7742a8d687208460b2794eea5be791d2b20172328c0",
+  "sha256": "972c2c410e9e0901e2fd79dd2486066ca5275cdaea82dc9096040414a4352ecc",
+  "file_size": 1692,
   "completed_successfully": true,
+  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz",
   "compiler_version": "11.665.4"
 }
 ```
@@ -115,7 +115,7 @@ Describe the WAF policy
 kubectl describe policy waf-policy
 ```
 
-The output should be similar to
+The output should be similar to the following
 ```code
 Name:         waf-policy
 Namespace:    default
@@ -124,10 +124,10 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         Policy
 Metadata:
-  Creation Timestamp:  2026-07-16T09:33:23Z
+  Creation Timestamp:  2026-09-03T09:27:16Z
   Generation:          1
-  Resource Version:    130416962
-  UID:                 7e952474-109d-40c2-b34b-ad5f58abfe95
+  Resource Version:    225400917
+  UID:                 7aeae89d-903e-41d8-806c-ce72b2629e61
 Spec:
   Waf:
     Ap Bundle:  waf_policy.tgz
@@ -143,7 +143,7 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  1s    nginx-ingress-controller  Policy default/waf-policy was added or updated
+  Normal  AddedOrUpdated  35s   nginx-ingress-controller  Policy default/waf-policy was added or updated
 ```
 
 Publish the application through NGINX Ingress Controller applying the WAF policy
@@ -156,10 +156,10 @@ Check the newly created `VirtualServer` resource
 kubectl get vs -o wide
 ```
 
-Output should be similar to
+Output should be similar to the following
 ```code
 NAME     STATE   HOST                 IP    EXTERNALHOSTNAME   PORTS   AGE
-webapp   Valid   webapp.example.com                                    5s
+webapp   Valid   webapp.example.com                                    25s
 ```
 
 Describe the `webapp` virtualserver
@@ -167,7 +167,7 @@ Describe the `webapp` virtualserver
 kubectl describe vs webapp
 ```
 
-Output should be similar to
+Output should be similar to the following
 ```code
 Name:         webapp
 Namespace:    default
@@ -176,10 +176,10 @@ Annotations:  <none>
 API Version:  k8s.nginx.org/v1
 Kind:         VirtualServer
 Metadata:
-  Creation Timestamp:  2026-07-16T09:33:41Z
+  Creation Timestamp:  2026-09-03T09:28:10Z
   Generation:          1
-  Resource Version:    130417034
-  UID:                 131fab28-1d09-4478-a6cb-dc8bc73075a1
+  Resource Version:    225401078
+  UID:                 dd0df38b-a07c-4156-a440-0fe4f641cbee
 Spec:
   Host:  webapp.example.com
   Policies:
@@ -199,7 +199,7 @@ Status:
 Events:
   Type    Reason          Age   From                      Message
   ----    ------          ----  ----                      -------
-  Normal  AddedOrUpdated  10s   nginx-ingress-controller  Configuration for default/webapp was added or updated
+  Normal  AddedOrUpdated  44s   nginx-ingress-controller  Configuration for default/webapp was added or updated
 ```
 
 Access the application using a legitimate request
@@ -207,21 +207,21 @@ Access the application using a legitimate request
 curl -i -H "Host: webapp.example.com" http://$NIC_IP:$HTTP_PORT
 ```
 
-Output should be similar to
+Output should be similar to the following
 ```code
 HTTP/1.1 200 OK
-Date: Wed, 03 Jun 2026 13:12:48 GMT
+Date: Thu, 03 Sep 2026 09:29:12 GMT
 Content-Type: text/plain
-Content-Length: 153
+Content-Length: 156
 Connection: keep-alive
-Expires: Wed, 03 Jun 2026 13:12:47 GMT
+Expires: Thu, 03 Sep 2026 09:29:11 GMT
 Cache-Control: no-cache
 
-Server address: 10.0.86.8:8080
-Server name: webapp-558ff5c8f6-5jpvl
-Date: 03/Jun/2026:13:12:48 +0000
+Server address: 172.16.254.1:8080
+Server name: webapp-558ff5c8f6-bd8wv
+Date: 03/Sep/2026:09:29:12 +0000
 URI: /
-Request ID: 740e25c98fd7e928b1bbad6e11e2fc7e
+Request ID: 72f250e8cf1d11c80dbfdb18a3a59f75
 ```
 
 Access the application using a suspicious URL
@@ -229,16 +229,16 @@ Access the application using a suspicious URL
 curl -i -H "Host: webapp.example.com" "http://$NIC_IP:$HTTP_PORT/<script>alert();</script>"
 ```
 
-Output should be similar to
+Output should be similar to the following
 ```code
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=utf-8
 Connection: close
 Cache-Control: no-cache
 Pragma: no-cache
-Content-Length: 246
+Content-Length: 247
 
-<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: 5712263780975477505<br><br><a href='javascript:history.back();'>[Go Back]</a></body></html>
+<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: 17821522028582675587<br><br><a href='javascript:history.back();'>[Go Back]</a></body></html>
 ```
 
 Check the security violation logs in the `syslog` pod
