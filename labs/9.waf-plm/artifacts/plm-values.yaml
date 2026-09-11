@@ -1,0 +1,29 @@
+imagePullSecrets:
+  - name: regcred
+securityUpdatesRepo:
+  cert: "<BASE64_ENCODED_NGINX_CERTIFICATE>"
+  key: "<BASE64_ENCODED_NGINX_CERTIFICATE_KEY>"
+policyController:
+  image:
+    tag: "5.15.0"
+  s3:
+    # S3 endpoint override (auto-calculated if not set)
+    # s3Endpoint: ""   
+    # Skip TLS certificate verification (for testing with self-signed certificates)
+    skipTlsVerify: true
+compiler:
+  image:
+    tag: "5.15.0"
+seaweedfsOperatorConfig:
+  seaweedfs:
+    image:
+      tag: "5.15.0"
+seaweedfs-operator:
+  image:
+    tag: "5.15.0"
+    pullSecrets: regcred
+
+seaweedfsOperatorConfig:
+  seaweedfs:
+    certificates:
+      enabled: true
