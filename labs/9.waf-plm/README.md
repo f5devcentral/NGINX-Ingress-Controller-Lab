@@ -615,7 +615,7 @@ export SYSLOG_POD_NAME=`kubectl get pods -l app=syslog -o jsonpath='{.items[0].m
 kubectl exec -it $SYSLOG_POD_NAME -- cat /var/log/messages
 ```
 
-# Delete the lab
+## Delete the lab
 
 ```bash
 kubectl delete -f 7.webapp-virtualserver.yaml -f 6.webapp-ingress.yaml -f 5.webapp.yaml -f 4.waf-policy.yaml -f 3.waf-resources.yaml -f 2.syslog.yaml -f 1.plm-certs.yaml
