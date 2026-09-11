@@ -22,5 +22,6 @@ cd NGINX-Ingress-Controller-Lab/labs
 - [Lab 6](6.rate-limiting) - Rate limiting
 - [Lab 7](7.waf) - F5 WAF for NGINX (Requires NGINX Ingress Controller deployment [without precompiled WAF policies](/DEPLOYING.md))
 - [Lab 8](8.waf-precompiled) - F5 WAF for NGINX using precompiled policies (Requires NGINX Ingress Controller deployment [with precompiled WAF policies](/DEPLOYING-WAFv5.md))
+- [Lab 9](9.waf-plm) - F5 WAF for NGINX using [Policy Lifecycle Manager](https://docs.nginx.com/nginx-ingress-controller/install/plm-installation/)
 
 The official NGINX Ingress Controller repository provides additional [examples](https://github.com/nginx/kubernetes-ingress/tree/main/examples)

@@ -1,0 +1,143 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: seaweedfs-selfsigned
+  namespace: plm-system
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seaweedfs-ca
+  namespace: plm-system
+spec:
+  isCA: true
+  commonName: seaweedfs-root-ca
+  secretName: plm-f5-waf-seaweedfs-ca-cert
+  duration: 87600h
+  renewBefore: 720h
+  privateKey:
+    algorithm: RSA
+    size: 4096
+  issuerRef:
+    name: seaweedfs-selfsigned
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: seaweedfs-ca-issuer
+  namespace: plm-system
+spec:
+  ca:
+    secretName: plm-f5-waf-seaweedfs-ca-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seaweedfs-master
+  namespace: plm-system
+spec:
+  commonName: seaweedfs-master
+  secretName: plm-f5-waf-seaweedfs-master-cert
+  duration: 8760h
+  renewBefore: 720h
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  dnsNames:
+    - plm-f5-waf-seaweed-master
+    - plm-f5-waf-seaweed-master.plm-system
+    - plm-f5-waf-seaweed-master.plm-system.svc
+    - plm-f5-waf-seaweed-master.plm-system.svc.cluster.local
+    - "*.plm-f5-waf-seaweed-master.plm-system.svc.cluster.local"
+    - localhost
+  ipAddresses:
+    - 127.0.0.1
+  issuerRef:
+    name: seaweedfs-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seaweedfs-volume
+  namespace: plm-system
+spec:
+  commonName: seaweedfs-volume
+  secretName: plm-f5-waf-seaweedfs-volume-cert
+  duration: 8760h
+  renewBefore: 720h
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  dnsNames:
+    - plm-f5-waf-seaweed-volume
+    - plm-f5-waf-seaweed-volume.plm-system
+    - plm-f5-waf-seaweed-volume.plm-system.svc
+    - plm-f5-waf-seaweed-volume.plm-system.svc.cluster.local
+    - "*.plm-f5-waf-seaweed-volume.plm-system.svc.cluster.local"
+    - localhost
+  ipAddresses:
+    - 127.0.0.1
+  issuerRef:
+    name: seaweedfs-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seaweedfs-filer
+  namespace: plm-system
+spec:
+  commonName: seaweedfs-filer
+  secretName: plm-f5-waf-seaweedfs-filer-cert
+  duration: 8760h
+  renewBefore: 720h
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  dnsNames:
+    - plm-f5-waf-seaweed-filer
+    - plm-f5-waf-seaweed-filer.plm-system
+    - plm-f5-waf-seaweed-filer.plm-system.svc
+    - plm-f5-waf-seaweed-filer.plm-system.svc.cluster.local
+    - "*.plm-f5-waf-seaweed-filer.plm-system.svc.cluster.local"
+    - localhost
+  ipAddresses:
+    - 127.0.0.1
+  issuerRef:
+    name: seaweedfs-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seaweedfs-client
+  namespace: plm-system
+spec:
+  commonName: nic-plm-client
+  secretName: plm-f5-waf-seaweedfs-client-cert
+  duration: 8760h
+  renewBefore: 720h
+  usages:
+    - digital signature
+    - key encipherment
+    - client auth
+  dnsNames:
+    - client
+  issuerRef:
+    name: seaweedfs-ca-issuer
+    kind: Issuer
+    group: cert-manager.io

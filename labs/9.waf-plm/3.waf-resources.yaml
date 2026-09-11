@@ -1,0 +1,35 @@
+apiVersion: appprotect.f5.com/v1
+kind: APPolicy
+metadata:
+  name: dataguard-blocking
+  namespace: security
+spec:
+  policy:
+    name: dataguard-blocking
+    template:
+      name: POLICY_TEMPLATE_NGINX_BASE
+    applicationLanguage: utf-8
+    enforcementMode: blocking
+    blocking-settings:
+      violations:
+      - name: VIOL_DATA_GUARD
+        alarm: true
+        block: true
+    data-guard:
+      enabled: true
+      maskData: true
+      creditCardNumbers: true
+      usSocialSecurityNumbers: true
+---
+apiVersion: appprotect.f5.com/v1
+kind: APLogConf
+metadata:
+  name: log-default
+  namespace: security
+spec:
+  content:
+    format: default
+    max_message_size: 64k
+    max_request_size: any
+  filter:
+    request_type: all

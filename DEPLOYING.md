@@ -34,7 +34,7 @@ kubectl create secret generic license-token --from-file=license.jwt=<nginx-one-e
 
 Note: `<nginx-one-eval.jwt>` is the path and filename of your `nginx-one-eval.jwt` file
 
-5. List available NGINX Ingress Controller docker images that include NGINX App Protect WAF
+5. List available NGINX Ingress Controller docker images that include F5 WAF for NGINX
 
 ```code
 curl -s https://private-registry.nginx.com/v2/nginx-ic-nap/nginx-plus-ingress/tags/list --key <nginx-one-eval.key> --cert <nginx-one-eval.crt> | jq
@@ -51,7 +51,7 @@ kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6
 kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.1/deploy/crds-nap-waf.yaml
 ```
 
-7. Install NGINX Ingress Controller with NGINX App Protect through its Helm chart (set `nginx.image.tag` to the latest `5.x` available NGINX Ingress Controller version)
+7. Install NGINX Ingress Controller with F5 WAF for NGINX through its Helm chart (set `nginx.image.tag` to the latest `5.x` available NGINX Ingress Controller version)
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
