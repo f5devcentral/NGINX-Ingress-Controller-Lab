@@ -259,7 +259,7 @@ INFO: HTTP client timeout configured: 5m0s
 {"level":"info","ts":"2026-09-11T11:36:23Z","msg":"No signature packages installed; skipping policy recompilation","correlationID":"apsignatures-1789126582-53763","workKey":"plm-system/apsignatures"}
 ```
 
-# Install NGINX Ingress Controller
+## Deploy NGINX Ingress Controller
 
 Create NGINX Ingress Controller namespace
 
@@ -325,7 +325,7 @@ NAME                                            READY   STATUS    RESTARTS   AGE
 nic-nginx-ingress-controller-85579b9556-4gctn   3/3     Running   0          18s
 ```
 
-# Deploy the syslog server
+## Deploy the syslog server
 
 Apply the `syslog` manifest
 ```bash
@@ -343,7 +343,7 @@ NAME                      READY   STATUS    RESTARTS   AGE
 syslog-794654b845-88r47   1/1     Running   0          8s
 ```
 
-# WAF policy configuration and bundles creation
+## WAF policy configuration and bundles creation
 
 Create the namespace to hold policies and log profiles
 
@@ -396,7 +396,7 @@ State: ready
 Location: s3://security/bundles/log-default20260911114228.tgz
 ```
 
-# Deploying a test application with WAF security enforcement
+## Deploying a test application with WAF security enforcement
 
 Create the WAF `Policy` object
 ```bash
