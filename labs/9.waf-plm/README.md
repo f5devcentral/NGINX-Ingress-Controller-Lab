@@ -125,7 +125,7 @@ Create the authentication secrets
 ```bash
 kubectl create secret generic jwt-reg-secret \
   --namespace plm-system \
-  --from-file=<nginx-one-eval.jwt>
+  --from-file=license.jwt=<nginx-one-eval.jwt>
 
 JWT=$(kubectl get secret jwt-reg-secret \
   --namespace plm-system \
