@@ -279,7 +279,7 @@ kubectl create secret generic license-token --from-file=license.jwt=<nginx-one-e
 
 Apply NGINX Ingress Controller custom resources (make sure the URI below references the latest available `5.x` NGINX Ingress Controller version)
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.1/deploy/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.3/deploy/crds.yaml
 ```
 
 Install NGINX Ingress Controller with F5 WAF for NGINX through its Helm chart
@@ -290,7 +290,7 @@ helm repo update nginx-stable
 helm install nic nginx-stable/nginx-ingress \
   --skip-crds \
   --set controller.image.repository="private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress" \
-  --set controller.image.tag="5.6.1" \
+  --set controller.image.tag="5.6.3" \
   --set controller.nginxplus=true \
   --set controller.service.type=NodePort \
   --set controller.appprotect.enable=true \
@@ -631,4 +631,6 @@ kubectl delete ns cert-manager
 
 kubectl delete -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 kubectl delete ns security
+
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.3/deploy/crds.yaml
 ```
