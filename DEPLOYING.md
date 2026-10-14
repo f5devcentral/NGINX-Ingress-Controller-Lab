@@ -42,22 +42,22 @@ curl -s https://private-registry.nginx.com/v2/nginx-ic-nap/nginx-plus-ingress/ta
 
 Note: `<nginx-one-eval.key>` and `<nginx-one-eval.key>` are the path and filename of your `nginx-one-eval.crt` and `nginx-one-eval.crt` files respectively
 
-Pick the latest version (`5.6.3` at the time of writing)
+Pick the latest version (`5.7.0` at the time of writing)
 
 6. Apply NGINX Ingress Controller custom resources (make sure the URI below references the latest available `5.x` NGINX Ingress Controller version)
 
 ```code
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.3/deploy/crds.yaml
-kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.3/deploy/crds-nap-waf.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.7.0/deploy/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.7.0/deploy/crds-nap-waf.yaml
 ```
 
 7. Install NGINX Ingress Controller with F5 WAF for NGINX through its Helm chart (set `nginx.image.tag` to the latest `5.x` available NGINX Ingress Controller version)
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
-  --version 2.7.3 \
+  --version 2.8.0 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap/nginx-plus-ingress \
-  --set controller.image.tag=5.6.3 \
+  --set controller.image.tag=5.7.0 \
   --set controller.nginxplus=true \
   --set controller.appprotect.enable=true \
   --set controller.serviceAccount.imagePullSecretName=regcred \
@@ -87,16 +87,16 @@ kubectl logs -l app.kubernetes.io/instance=nic -n nginx-ingress -c nginx-ingress
 
 Output should be similar to
 ```code
-New file num: 2
-New module: IO_PLUGIN
-New level: TS_CRIT
-New file num: 2
-New ALL module: ALL
-New ALL level: TS_ERR
-New ALL level: TS_CRIT
-New ALL level: TS_NOTICE
-New ALL level: TS_WARNING
-New ALL file num: 2
+2026/10/14 14:29:54 [notice] 19#19: APP_PROTECT { "event": "waf_disconnected", "enforcer_thread_id": 0, "worker_pid": 19, "mode": "operational", "mode_changed": false}
+2026/10/14 14:29:54 [notice] 20#20: exit
+2026/10/14 14:29:54 [notice] 19#19: exit
+2026/10/14 14:29:54 [notice] 16#16: signal 17 (SIGCHLD) received from 20
+2026/10/14 14:29:54 [notice] 16#16: worker process 19 exited with code 0
+2026/10/14 14:29:54 [notice] 16#16: worker process 20 exited with code 0
+2026/10/14 14:29:54 [notice] 16#16: signal 29 (SIGIO) received
+I20261014 14:29:54.536151   1 main.go:116] Event(v1.ObjectReference{Kind:"Pod", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-controller-d9f4ff64d-z7jcz", UID:"60727dc5-ad4c-4a42-bf3a-f51286f244c9", APIVersion:"v1", ResourceVersion:"151448198", FieldPath:""}): type: 'Normal' reason: 'SecretUpdated' the special Secret nginx-ingress/license-token was updated
+I20261014 14:29:54.536195   1 main.go:116] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress", UID:"083e37e0-2565-4d2c-822c-070d9cb4350b", APIVersion:"v1", ResourceVersion:"151448164", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap nginx-ingress/nic-nginx-ingress updated without error
+I20261014 14:29:54.536203   1 main.go:116] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"nginx-ingress", Name:"nic-nginx-ingress-mgmt", UID:"5c2a138a-23b4-4d0c-b195-cf2aeb9786d8", APIVersion:"v1", ResourceVersion:"151448165", FieldPath:""}): type: 'Normal' reason: 'Updated' MGMT ConfigMap nginx-ingress/nic-nginx-ingress-mgmt updated without error
 ```
 
 10. Check Kubernetes service status
@@ -142,6 +142,6 @@ kubectl delete namespace nginx-ingress
 3. Delete custom resources
 
 ```code
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.3/deploy/crds.yaml
-kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.6.3/deploy/crds-nap-waf.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.7.0/deploy/crds.yaml
+kubectl delete -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.7.0/deploy/crds-nap-waf.yaml
 ```
