@@ -28,7 +28,7 @@ cd artifacts
 chmod 777 .
 docker run --rm \
  -v $(pwd):$(pwd) \
- waf-compiler-5.15.0:custom \
+ waf-compiler-5.16.0:custom \
  -include-source -full-export -g $(pwd)/global_settings.json -p $(pwd)/waf_policy.json -o $(pwd)/waf_policy.tgz
 ```
 
@@ -63,7 +63,7 @@ Compile the WAF log profile
 ```code
 docker run \
   -v $(pwd):$(pwd) \
-  waf-compiler-5.15.0:custom \
+  waf-compiler-5.16.0:custom \
   -l $(pwd)/log_profile.json -o $(pwd)/log_profile.tgz
 ```
 
