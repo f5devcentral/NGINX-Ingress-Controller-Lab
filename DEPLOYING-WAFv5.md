@@ -148,7 +148,7 @@ sudo cp <nginx-one-eval.crt> /etc/docker/certs.d/private-registry.nginx.com/clie
 sudo cp <nginx-one-eval.key> /etc/docker/certs.d/private-registry.nginx.com/client.key
 ```
 
-3. Build the F5 WAF for NGINX compiler (`5.15.0` at the time of writing):
+3. Build the F5 WAF for NGINX compiler (`5.16.0` at the time of writing):
 ```code
 docker build -f deployment/Dockerfile --no-cache --platform linux/amd64 \
   --secret id=nginx-crt,src=<nginx-one-eval.crt> \
