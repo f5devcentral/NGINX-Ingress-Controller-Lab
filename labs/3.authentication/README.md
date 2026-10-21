@@ -2,6 +2,12 @@
 
 This use case shows how to enforce JWT authentication at the NGINX Ingress Controller level
 
+## Architecture and Traffic Flow
+
+The following diagram illustrates the architecture and traffic flow for this lab:
+
+![Traffic Flow](03-authentication.svg)
+
 Get NGINX Ingress Controller Node IP, HTTP and HTTPS NodePorts
 ```code
 export NIC_IP=`kubectl get pod -l app.kubernetes.io/instance=nic -n nginx-ingress -o json|jq '.items[0].status.hostIP' -r`

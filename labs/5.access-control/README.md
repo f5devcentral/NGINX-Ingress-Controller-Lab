@@ -2,6 +2,12 @@
 
 This use case applies access control policies to deny and allow traffic from a specific subnet
 
+## Architecture and Traffic Flow
+
+The following diagram illustrates the architecture and traffic flow for this lab:
+
+![Traffic Flow](05-access-control.svg)
+
 Get NGINX Ingress Controller Node IP, HTTP and HTTPS NodePorts
 ```code
 export NIC_IP=`kubectl get pod -l app.kubernetes.io/instance=nic -n nginx-ingress -o json|jq '.items[0].status.hostIP' -r`
