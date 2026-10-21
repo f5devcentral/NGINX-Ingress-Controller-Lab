@@ -8,6 +8,11 @@ four services: `tea-post-svc`, `tea-svc`, `coffee-v1-svc` and `coffee-v2-svc`
 - Requests for `/coffee` that include the cookie `version` set to `v2` are routed to `coffee-v2-svc`
 - Requests for `/coffee` with no `version` coookie are routed to `coffee-v1-svc`
 
+## Architecture and Traffic Flow
+
+The following diagram illustrates the architecture and traffic flow for this lab:
+
+![Traffic Flow](02-advanced-routing.svg)
 
 Get NGINX Ingress Controller Node IP, HTTP and HTTPS NodePorts
 ```code

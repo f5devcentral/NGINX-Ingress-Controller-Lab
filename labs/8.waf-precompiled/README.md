@@ -4,6 +4,12 @@ This use case applies WAF protection to a sample application exposed through NGI
 
 NGINX Ingress Controller needs to be deployed with the WAF in precompiled mode, see [DEPLOYING-WAFv5.md](/DEPLOYING-WAFv5.md)
 
+## Architecture and Traffic Flow
+
+The following diagram illustrates the architecture and traffic flow for this lab:
+
+![Traffic Flow](08-waf-precompiled.svg)
+
 Get NGINX Ingress Controller Node IP, HTTP and HTTPS NodePorts and pod name
 ```code
 export NIC_IP=`kubectl get pod -l app.kubernetes.io/instance=nic -n nginx-ingress -o json|jq '.items[0].status.hostIP' -r`

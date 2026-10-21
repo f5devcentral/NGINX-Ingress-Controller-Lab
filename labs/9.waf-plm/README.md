@@ -4,6 +4,12 @@ This use case applies WAF protection to a sample application exposed through NGI
 The NGINX Ingress Controller is deployed directly in this lab
 
 
+## Architecture and Traffic Flow
+
+The following diagram illustrates the architecture and traffic flow for this lab:
+
+![Traffic Flow](09-waf-plm.svg)
+
 `cd` into the lab directory
 ```code
 cd ~/NGINX-Ingress-Controller-Lab/labs/9.waf-plm
