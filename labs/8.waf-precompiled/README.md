@@ -33,9 +33,9 @@ Compile the policy bundle
 cd artifacts
 chmod 777 .
 docker run --rm \
- -v $(pwd):$(pwd) \
+ -v $(pwd):$(pwd) -w $(pwd) \
  waf-compiler-5.16.0:custom \
- -include-source -full-export -g $(pwd)/global_settings.json -p $(pwd)/waf_policy.json -o $(pwd)/waf_policy.tgz
+ -include-source -full-export -g global_settings.json -p waf_policy.json -o waf_policy.tgz
 ```
 
 The output should be similar to the following
@@ -44,21 +44,21 @@ The output should be similar to the following
   "completed_successfully": true,
   "policy_name": "simple-blocking-policy",
   "compiler_engine": "express",
-  "compiler_version": "11.665.4",
-  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/waf_policy.tgz",
-  "file_size": 1919815,
-  "sha256": "f387c41fb5c993d8d7710cdf1313ddf4008c6e8249f6def5724b9742b53fa84b",
+  "compiler_version": "11.869.0",
+  "filename": "waf_policy.tgz",
+  "file_size": 8392284,
+  "sha256": "a48525d3fd35f60fc9d8206c611739b1de1dfbcc07477f832844d23e004576bf",
   "attack_signatures_package": {
-    "version": "2026.08.26",
-    "revision_datetime": "2026-08-26T14:42:21Z"
+    "version": "2026.10.29",
+    "revision_datetime": "2026-10-29T15:29:21Z"
   },
   "bot_signatures_package": {
-    "version": "2026.09.02",
-    "revision_datetime": "2026-09-02T11:15:52Z"
+    "version": "2026.10.29",
+    "revision_datetime": "2026-10-29T13:28:35Z"
   },
   "threat_campaigns_package": {
-    "version": "2026.09.01",
-    "revision_datetime": "2026-09-01T07:51:35Z"
+    "version": "2026.10.28",
+    "revision_datetime": "2026-10-28T11:27:32Z"
   }
 }
 ```
@@ -67,21 +67,21 @@ The policy has been compiled into `waf_policy.tgz`
 
 Compile the WAF log profile
 ```code
-docker run \
-  -v $(pwd):$(pwd) \
+docker run --rm \
+  -v $(pwd):/tmp -w /tmp \
   waf-compiler-5.16.0:custom \
-  -l $(pwd)/log_profile.json -o $(pwd)/log_profile.tgz
+  -l log_profile.json -o log_profile.tgz
 ```
 
 The output should be similar to the following
 ```code
 {
+  "file_size": 1634,
   "compiler_engine": "full",
-  "sha256": "972c2c410e9e0901e2fd79dd2486066ca5275cdaea82dc9096040414a4352ecc",
-  "file_size": 1692,
-  "completed_successfully": true,
-  "filename": "/home/f5/work/NGINX-Ingress-Controller-Lab/labs/8.waf-precompiled/artifacts/log_profile.tgz",
-  "compiler_version": "11.665.4"
+  "compiler_version": "11.869.0",
+  "sha256": "b70f5a0545d9c57752829dc90dc6653f352d74b48fd9b3f2ff23757f7c00b32b",
+  "filename": "/tmp/log_profile.tgz",
+  "completed_successfully": true
 }
 ```
 

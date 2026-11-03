@@ -23,12 +23,11 @@ Prerequisites to use this repository are:
 
 ## Deployment
 
-1. [Deploy](/DEPLOYING.md) NGINX Ingress Controller and F5 WAF for NGINX without precompiled policies - supports labs 1-7, not compatible with labs 8 and 9
-2. [Deploy](/DEPLOYING-WAFv5.md) NGINX Ingress Controller and F5 WAF for NGINX with precompiled policies - supports labs 1-6 and 8, not compatible with labs 7 and 9
-3. [Deploy](labs) use cases
-
-> [!NOTE]
-> Lab 9 (WAF with Policy Lifecycle Management) is self-contained and includes full instructions to deploy NGINX Ingress Controller
+| Deployment | Lab 1 | Lab 2 | Lab 3 | Lab 4 | Lab 5 | Lab 6 | Lab 7 | Lab 8 | Lab 9 |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [Deploy](/DEPLOYING.md) NGINX Ingress Controller and F5 WAF for NGINX **without** precompiled policies | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| [Deploy](/DEPLOYING-WAFv5.md) NGINX Ingress Controller and F5 WAF for NGINX **with** precompiled policies | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| [Deploy](/labs) use case directly | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ## Removal
 
