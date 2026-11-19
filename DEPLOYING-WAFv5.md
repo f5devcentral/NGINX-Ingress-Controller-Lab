@@ -59,6 +59,7 @@ kubectl apply -f ./deployment/pvcs.yaml
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
+  --version 2.9.0 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress \
   --set controller.image.tag=5.8.0 \
   --set controller.nginxplus=true \

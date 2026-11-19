@@ -55,6 +55,7 @@ kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.8
 
 ```code
 helm install nic oci://ghcr.io/nginx/charts/nginx-ingress \
+  --version 2.9.0 \
   --set controller.image.repository=private-registry.nginx.com/nginx-ic-nap/nginx-plus-ingress \
   --set controller.image.tag=5.8.0 \
   --set controller.nginxplus=true \

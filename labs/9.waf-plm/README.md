@@ -294,6 +294,7 @@ helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update nginx-stable
 
 helm install nic nginx-stable/nginx-ingress \
+  --version 2.9.0 \
   --skip-crds \
   --set controller.image.repository="private-registry.nginx.com/nginx-ic-nap-v5/nginx-plus-ingress" \
   --set controller.image.tag="5.8.0" \
