@@ -23,11 +23,17 @@ Prerequisites to use this repository are:
 
 ## Deployment
 
-| Deployment | Lab 1 | Lab 2 | Lab 3 | Lab 4 | Lab 5 | Lab 6 | Lab 7 | Lab 8 | Lab 9 |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [Deploy](/DEPLOYING.md) NGINX Ingress Controller and F5 WAF for NGINX **without** precompiled policies | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| [Deploy](/DEPLOYING-WAFv5.md) NGINX Ingress Controller and F5 WAF for NGINX **with** precompiled policies | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| [Deploy](/labs) use case directly | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Lab | [Deploy](/DEPLOYING.md) NGINX Ingress Controller and F5 WAF for NGINX **without** precompiled policies | [Deploy](/DEPLOYING-WAFv5.md) NGINX Ingress Controller and F5 WAF for NGINX **with** precompiled policies | [Deploy](/labs) use case directly |
+| :--- | :---: | :---: | :---: |
+| [Lab 1](labs/1.basic-ingress) - Basic Ingress Controller, URI-based routing and TLS offload | ✅ | ❌ | ❌ |
+| [Lab 2](labs/2.advanced-routing) - Advanced L7 routing | ✅ | ❌ | ❌ |
+| [Lab 3](labs/3.authentication) - JWT authentication | ✅ | ❌ | ❌ |
+| [Lab 4](labs/4.traffic-splitting) - Traffic splitting | ✅ | ❌ | ❌ |
+| [Lab 5](labs/5.access-control) - Access control | ✅ | ❌ | ❌ |
+| [Lab 6](labs/6.rate-limiting) - Rate limiting | ✅ | ❌ | ❌ |
+| [Lab 7](labs/7.waf) - F5 WAF for NGINX | ✅ | ❌ | ❌ |
+| [Lab 8](labs/8.waf-precompiled) - F5 WAF for NGINX using precompiled policies | ❌ | ✅ | ❌ |
+| [Lab 9](labs/9.waf-plm) - F5 WAF for NGINX using Policy Lifecycle Manager | ❌ | ❌ | ✅ |
 
 ## Removal
 
